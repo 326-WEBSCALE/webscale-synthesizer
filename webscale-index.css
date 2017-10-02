@@ -1,0 +1,31 @@
+html, body {
+    height: 100vh;
+}
+
+.fill { 
+    min-height: 100%;
+    height: 100%;
+}
+
+.main {
+    min-height: 100%;
+    height: 100%; 
+}
+
+.editor {
+    height: 50%;
+}
+
+.results {
+    border: 2px solid green;
+    height: 25%;
+    background: black;
+    color: white;
+}
+
+.output {
+    border: 2px solid blue;
+    height: 25%;
+    background: black;
+    color: white;
+}
