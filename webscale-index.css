@@ -8,6 +8,10 @@ html, body {
     padding: 0px !important;
 }
 
+#user-drop-down {
+    padding-right: 100px;
+}
+
 #main { 
     height: 100vh;
     overflow: hidden;
