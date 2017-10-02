@@ -1,13 +1,16 @@
 html, body {
-    height: calc(100vh - 400px);
+    height: 100%;
 }
 
 .main {
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .header {
     left: 0;
+    height: 90px;
+    min-height: 90px;
     width: 100%;
     border: 1px solid gray;
 }
@@ -15,12 +18,12 @@ html, body {
 .left-panel {
     position: absolute;
     left: 0;
-    width: 195px;
+    width: 150px;
     border: 1px solid gray;
     display: flex;
     flex-flow: column;
     /* TODO: Address this maybe */
-    height: 100%;
+    height: 90%;
 }
 
 .left-panel > .item {
@@ -31,25 +34,37 @@ html, body {
 .content {
     position: relative;
     border: 1px solid gray;
-    margin-left: 195px;
+    margin-left: 150px;
     height: 100%;
     display: flex;
 }
 
 .editor {
    width: 50%;
+   resize: none;
+   border: none;
+   border-right: 1px solid gray;
+   overflow: auto;
+}
+.editor:focus {
+    outline: none;
 }
 
+.synthesizer {
+    width: 50%;
+} 
+
 .results {
-    border: 2px solid green;
     height: 25%;
+    border-bottom: 1px solid gray;
     background: black;
     color: white;
+    overflow: auto;
 }
 
 .output {
-    border: 2px solid blue;
-    height: 25%;
+    height: 75%;
     background: black;
     color: white;
+    overflow: auto;
 }
