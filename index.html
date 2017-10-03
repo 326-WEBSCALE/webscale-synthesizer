@@ -54,9 +54,9 @@
       <div class="col-1 no-padding">
         <div class="btn-group-vertical">
           <button type="button" class="btn btn-primary item">Synthesize!</button>
-          <button data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
-          <button data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
-          <button type="button" class="btn btn-info item">Search</button>
+          <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
+          <button type="button" data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
+          <button type="button" data-toggle="modal" href="#search-modal" class="btn btn-info item">Search</button>
         </div>
       </div>
       <!-- Sidebar end -->
@@ -149,49 +149,50 @@
         <!-- Modal content start -->
         <div class="modal-body">
           <div class="container-fluid">
-              <div class="row">
-                <div class="buttons-right">
+            <div class="row">
+              <div class="buttons-right">
                 <div class="btn-group" role="group" aria-label="Import actions">
                   <button type="button" class="btn btn-outline-secondary btn-sm">Import from file</button>
                   <button type="button" class="btn btn-outline-secondary btn-sm">Import from Google Drive</button>
                 </div>
               </div>
-              </div>
-              <div class="row saved-programs">
-                <h4>Saved Programs:</h4>
-                <table class="table table-striped program-table">
-                    <thead>
-                      <tr>
-                        <th>Program Name</th>
-                        <th>Description</th>
-                        <th>Load</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>CS230 HW Assignment 4</td>
-                        <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help me out.</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
-                      </tr>
-                      <tr>
-                        <td>Random thing</td>
-                        <td>Fill in.</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
-                      </tr>
-                      <tr>
-                        <td>Code and stuff</td>
-                        <td>Yeah.</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
-                      </tr>
-                      <tr>
-                        <td>Another thing</td>
-                        <td>Fix later.</td>
-                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
-                      </tr>
-                    </tbody>
-                  </table>
-              </div>
-          </div>  
+            </div>
+            <div class="row margin-top">
+              <h4>Saved Programs:</h4>
+              <table class="table table-striped program-table">
+                <thead>
+                  <tr>
+                    <th>Program Name</th>
+                    <th>Description</th>
+                    <th>Load</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CS230 HW Assignment 4</td>
+                    <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help
+                      me out.</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                  </tr>
+                  <tr>
+                    <td>Random thing</td>
+                    <td>Fill in.</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                  </tr>
+                  <tr>
+                    <td>Code and stuff</td>
+                    <td>Yeah.</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                  </tr>
+                  <tr>
+                    <td>Another thing</td>
+                    <td>Fix later.</td>
+                    <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
         <!-- Modal content end -->
 
@@ -203,6 +204,79 @@
   </div>
   <!-- Load modal end -->
 
+  <!-- Search modal start -->
+  <div class="modal" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="search-modal-label" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="search-modal-label">Search Programs</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+        </div>
+
+        <!-- Modal content start -->
+        <div class="modal-body">
+          <div class="container-fluid">
+              <form role="form">  
+                  <div class="row">
+                      <div class="input-group input-group-lg">
+                          <input type="text" class="form-control" placeholder="This would call an endpoint and populat the results below."/>
+                        <div class="input-group-btn">
+                          <button type="submit" class="btn">Search</button>
+                        </div>
+                      </div>
+                  </div>
+            
+            <div class="row margin-top">
+                <h4>Search Results:</h4>
+                <table class="table table-striped program-table">
+                    <thead>
+                      <tr>
+                        <th>User</th>
+                        <th>Program Name</th>
+                        <th>Description</th>
+                        <th>Load</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Jerry Smith</td>
+                        <td>CS230 HW Assignment 4</td>
+                        <td>I also got stuck on my CS230 hw and needed Synthesizer to help me out.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                      </tr>
+                      <tr>
+                        <td>John Conner</td>
+                        <td>T-800 Hack</td>
+                        <td>Synthesizer helped me hack the T-800. Going to send him back in time now to help myself out.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                      </tr>
+                      <tr>
+                        <td>Rick Sanchez</td>
+                        <td>Program C-137</td>
+                        <td>Yeah.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                      </tr>
+                      <tr>
+                        <td>Sarah Johnson</td>
+                        <td>Another thing</td>
+                        <td>Fix later.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+          <!-- Modal content end -->
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Search modal end -->
 </body>
 
 </html>
