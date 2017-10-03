@@ -1,5 +1,6 @@
 html, body {
   background: linear-gradient(to bottom, rgba(52, 52, 54, 1.0), rgba(52, 52, 54, 1.0));
+  color: white !important;
 }
 
 #user-drop-down {
@@ -8,11 +9,6 @@ html, body {
 
 h1 {
   text-align: center;
-  color: white !important;
   padding-top: 20px;
   padding-bottom: 20px;
-}
-
-p {
-  color: white;
 }

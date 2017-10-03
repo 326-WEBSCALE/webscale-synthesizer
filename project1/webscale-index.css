@@ -4,6 +4,10 @@ html, body {
     overflow: hidden;
 }
 
+#user-drop-down {
+    padding-right: 100px;
+}
+
 .no-padding {
     padding: 0px !important;
 }
@@ -12,15 +16,9 @@ html, body {
     padding-right: 0px !important;
 }
 
-#user-drop-down {
-    padding-right: 100px;
-}
-
 #main { 
-    height: 100vh;
+    height: calc(100vh - 55px);
     overflow: hidden;
-    /* margin: 0px;
-    padding: 0px; */
 }
 
 .row-fill {
