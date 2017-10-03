@@ -1,6 +1,11 @@
 html, body {
   background: linear-gradient(to bottom, rgba(52, 52, 54, 1.0), rgba(52, 52, 54, 1.0));
   color: white !important;
+  position: relative;
+}
+
+body {
+  padding-bottom: 150px;
 }
 
 #user-drop-down {
@@ -25,4 +30,16 @@ html, body {
 
 .card-description {
   padding-top: 20px;
+}
+
+.footer {
+  padding: 10px 40px 10px 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-hr {
+  border-top: 1px solid rgba(194, 192, 192, 0.27);
 }
