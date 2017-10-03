@@ -37,6 +37,10 @@ body {
   margin-bottom: 20px;
 }
 
+.card-heading {
+  margin-left: 15px;
+}
+
 .card-description {
   padding-top: 20px;
 }
