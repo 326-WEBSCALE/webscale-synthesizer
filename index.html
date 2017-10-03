@@ -54,8 +54,8 @@
       <div class="col-1 no-padding">
         <div class="btn-group-vertical">
           <button type="button" class="btn btn-primary item">Synthesize!</button>
-          <button data-toggle="modal" href="#myModal" class="btn btn-primary btn-large">Save</button>
-          <button type="button" class="btn btn-info item">Load</button>
+          <button data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
+          <button data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
           <button type="button" class="btn btn-info item">Search</button>
         </div>
       </div>
@@ -89,18 +89,43 @@
 
 
   <!-- Save modal start -->
-  <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="save-modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="save-modal-label">Save Program</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
-            </button>
+          </button>
         </div>
+
+        <!-- Modal content start -->
         <div class="modal-body">
-          ...
+          <div class="form-group row">
+            <label for="name-input" class="col-3 col-form-label">Name</label>
+            <div class="col-9">
+              <input class="form-control" type="text" placeholder="Type the program's name here..." id="name-input">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="description-input" class="col-3 col-form-label">Description</label>
+            <div class="col-9">
+              <input class="form-control" type="text" placeholder="Type a description here..." id="description-input">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-3">Make Public</label>
+            <div class="col-9">
+              <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" type="checkbox">
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
+        <!-- Modal content end -->
+
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
@@ -109,6 +134,38 @@
     </div>
   </div>
   <!-- Save modal end -->
+
+  <!-- Load modal start -->
+  <div class="modal" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="load-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="load-modal-label">Load Program</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Modal content start -->
+        <div class="modal-body">
+          <div class="container-fluid">
+              <div class="row">
+                Buttons...
+              </div>
+              <div class="row">
+                List of saved programs...
+              </div>
+          </div>  
+        </div>
+        <!-- Modal content end -->
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Load modal end -->
 
 </body>
 
