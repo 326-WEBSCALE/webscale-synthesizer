@@ -1,0 +1,29 @@
+html, body {
+  background: linear-gradient(to bottom, rgba(52, 52, 54, 1.0), rgba(52, 52, 54, 1.0));
+  color: white !important;
+}
+
+#user-drop-down {
+  padding-right: 100px;
+}
+
+h1 {
+  padding-top: 20px;
+}
+
+.heading-hr {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkmark {
+  color: green;
+  padding-right: 20px;
+}
+
+.btn-leftpad {
+  margin-left: 20px;
+}
+
+tbody > tr:hover {
+  background: rgba(82, 80, 80, 0.26) !important;
+}
