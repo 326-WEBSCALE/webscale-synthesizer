@@ -7,8 +7,22 @@ html, body {
   padding-right: 100px;
 }
 
-h1 {
+.page-title {
   text-align: center;
   padding-top: 20px;
+}
+
+.page-subtitle {
+  text-align: center;
   padding-bottom: 20px;
+}
+
+.feed-card {
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.card-description {
+  padding-top: 20px;
 }
