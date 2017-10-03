@@ -55,8 +55,12 @@ html, body {
     margin-top: 20px;
 }
 
-/* .buttons-right {
-    align-items: right;
-    text-align: right;
-    align-content: right;
-} */
+.buttons-right {
+    position: absolute;
+    right: 0;
+    padding-right: 20px;
+}
+
+tbody > tr:hover {
+    background: rgba(82, 80, 80, 0.26) !important;
+}

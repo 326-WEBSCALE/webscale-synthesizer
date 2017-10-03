@@ -150,37 +150,44 @@
         <div class="modal-body">
           <div class="container-fluid">
               <div class="row">
+                <div class="buttons-right">
                 <div class="btn-group" role="group" aria-label="Import actions">
                   <button type="button" class="btn btn-outline-secondary btn-sm">Import from file</button>
                   <button type="button" class="btn btn-outline-secondary btn-sm">Import from Google Drive</button>
                 </div>
               </div>
+              </div>
               <div class="row saved-programs">
-                <h4>Load Saved Programs:</h4>
-                <table class="table table-striped">
+                <h4>Saved Programs:</h4>
+                <table class="table table-striped program-table">
                     <thead>
                       <tr>
                         <th>Program Name</th>
                         <th>Description</th>
+                        <th>Load</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td>CS230 HW Assignment 4</td>
                         <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help me out.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
                       </tr>
                       <tr>
                         <td>Random thing</td>
                         <td>Fill in.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
                       </tr>
                       <tr>
                         <td>Code and stuff</td>
                         <td>Yeah.</td>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
                       </tr>
                       <tr>
                         <td>Another thing</td>
                         <td>Fix later.</td>
-                        </tr>
+                        <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td>
+                      </tr>
                     </tbody>
                   </table>
               </div>
