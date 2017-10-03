@@ -132,7 +132,15 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Export to Google Drive</a>
+              <a class="dropdown-item" href="#">Downland</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
