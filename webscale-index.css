@@ -50,3 +50,13 @@ html, body {
     color: rgba(255, 255, 255, 0.86);
     overflow: auto;
 }
+
+.saved-programs {
+    margin-top: 20px;
+}
+
+/* .buttons-right {
+    align-items: right;
+    text-align: right;
+    align-content: right;
+} */

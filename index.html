@@ -137,7 +137,7 @@
 
   <!-- Load modal start -->
   <div class="modal" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="load-modal-label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="load-modal-label">Load Program</h5>
@@ -150,10 +150,43 @@
         <div class="modal-body">
           <div class="container-fluid">
               <div class="row">
-                Buttons...
+                <div class="btn-group" role="group" aria-label="Import actions">
+                  <button type="button" class="btn btn-outline-secondary btn-sm">Import from file</button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm">Import from Google Drive</button>
+                </div>
               </div>
               <div class="row">
-                List of saved programs...
+                <table class="table table-striped saved-programs">
+                    <thead>
+                      <tr>
+                        <th>Saved Programs</th>
+                        <th>Program Name</th>
+                        <th>Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>CS230 HW Assignment 4</td>
+                        <td> Fourth hw asignment for CS230. Couldn't figure out the bit mask, so I am using Synthesizer to help me out.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Random thing</td>
+                        <td>Fill in.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Code and stuff</td>
+                        <td>Yeah.</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">4</th>
+                        <td>Another thing</td>
+                        <td>Fix later.</td>
+                        </tr>
+                    </tbody>
+                  </table>
               </div>
           </div>  
         </div>
