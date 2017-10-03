@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>FAQ</title>
-  <link rel="stylesheet" type="text/css" href="webscale-faq.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
     crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -12,13 +11,14 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
     crossorigin="anonymous"></script>
+  <link rel="stylesheet" type="text/css" href="webscale-faq.css">
 </head>
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="#">W E B S C A L E</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false"
+      aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -55,16 +55,72 @@
     <div id="main" class="row justify-content-center">
       <div class="col-7">
         <p>
-          <span><b>Why?</b></span>
-          <br> Have you ever had to write a program where you have to extract certain bits from an integer, or something along those lines, and spent the greater portion of your time figuring out what exact bitmask to use? As programs get more complex, you want to spend your time thinking about the logic of the program, not the constants. Synthesizers arose to aid programmers in writing programs quickly, by taking away the mental burden of computing the exact values of specific constants. The idea is that, eventually, you just write code and leave certain portions blank that you can't figure out, and the computer will fill in the blanks for you.
+          <span><b>What does it do?</b></span>
+          <br>
+          <span>Given the input:</span>
+
+          <span>
+            <pre>
+              <code>
+                r = (x + ??) & ~(x - ??)
+                done = 1
+                i = W - 1
+              </code>
+            </pre>
+          </span>
+
+          <span>
+            <pre>
+              <code>
+                repeat i: W {
+                  if ((done == 0) && 
+                     !(x & 1 << i) == 0) {
+                    done = 1
+                    r = 1 << i
+                  }
+                }
+                done = 1
+              </code>
+            </pre>
+          </span>
+
+          <span>
+            The synthesizer will fill in the <b>??</b> with the right constants.
+            Note that this a non-trivial bit mask that is expressed easily as 
+            a loop in the spec (the second piece of code).
+          </span>
         </p>
         <p>
-          <span><b>Is this some artificial intelligence nonsense? Will it always work?</b></span>
-          <br> Synthesizers do not work with some artificial intelligence engine at its back. Instead, the constants computed by the synthesizer are decided with a purely mathematical understanding of the program. It is entireley deterministic, and will always give you the right constant if there is one to be found!
+          <span class="question"><b>What if I already know the bit-mask?</b></span>
+          <br> 
+          That's great! However, we believe that programs should be written
+          in a way that is easy to read and maintain. A while loop in this 
+          case always truimps over bit-masking magic.
+
+          We aim to bring together the benefits of expressive and fast running
+          code using this synthesis technique. As programs grow more complex,
+          we believe techniques like this would help program maintainability.
         </p>
         <p>
-          <span><b>What is the future for synthesizers?</b></span>
-          <br> Predicting the future of any technology is a difficult task. However, the loose goal of synthesizers is to become more broad in their synthesizing capability. That is, better synthesizers in the future will hopefully be able to generate larger portions of the code for the user!
+          <span class="question"><b>How well does it scale? Can it synthesize
+          constants for jQuery</b></span>
+          <br> 
+          Short Answer, No. This program does not scale to jQuery well because
+          of the underlying SAT solving algorithm's exponential complexity. 
+          However, developers usually write programs in small and meaningful
+          chunks. The use case for this synthesizer is to build such simple
+          pieces incrementally, using the tool when the developer thinks That
+          bit-masking magic with help with performance.
+        </p>
+        <p>
+          <span class="question"><b>How does this work?</b></span> 
+          <br>
+          The synthesizer makes use of something called Counter-Example
+          Driven code generation. We take an input spec and compile it into
+          Hoare-logic style transformer. We then encode it into a SAT solver.
+          We do the same for the sketched program and then give the SAT
+          solver the constraint that the two programs must match on all
+          inputs and get the results to the ??.
         </p>
         <p>
           <span><b>Is this project open source?</b></span>
@@ -76,5 +132,4 @@
   <!-- Content end-->
 
 </body>
-
 </html>
