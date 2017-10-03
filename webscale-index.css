@@ -8,6 +8,10 @@ html, body {
     padding: 0px !important;
 }
 
+.no-padding-right {
+    padding-right: 0px !important;
+}
+
 #user-drop-down {
     padding-right: 100px;
 }
@@ -21,6 +25,9 @@ html, body {
 
 .row-fill {
     height: 100%;
+}
+.action-buttons {
+    padding-top: 20px;
 }
 
 .editor {
