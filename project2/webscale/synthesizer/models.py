@@ -9,7 +9,7 @@ class ApplicationTable(models.Model):
     """
     client_secret = models.CharField('Client Secret', max_length=200)
     contact_email = models.EmailField('Contact Email', max_length=200, help_text="Enter your email")
-    copyright_date = models.CharField('Copyright Date'max_length=200, help_text="Enter copyright date")
+    copyright_date = models.CharField('Copyright Date', max_length=200, help_text="Enter copyright date")
 
     def get_client_secret(self):
         return self.client_secret
