@@ -5,30 +5,17 @@ import uuid
 # Create your models here.
 class ApplicationTable(models.Model):
     """
-    Model of a tabel for applications
+    Model of a table for applications
     """
-    client_secret = models.CharField(max_length=200, help_text="Enter client secret")
-
-    contact_email = models.EmailField(max_length=200, help_text="Enter your email")
-
-    copyright_date = models.CharField(max_length=200, help_text="Enter copyright date")
+    client_secret = models.CharField('Client Secret', max_length=200)
+    contact_email = models.EmailField('Contact Email', max_length=200, help_text="Enter your email")
+    copyright_date = models.CharField('Copyright Date'max_length=200, help_text="Enter copyright date")
 
     def get_client_secret(self):
-        """
-        Returns the client_secret
-        """
         return self.client_secret
-
     def get_contact_email(self):
-        """
-        Returns the contact_email
-        """
         return self.contact_email
-
     def get_copyright_date(self):
-        """
-        Returns the copyright date
-        """
         return self.copyright_date
 
 class User(models.Model):
@@ -45,29 +32,16 @@ class User(models.Model):
         String for representing the Model object.
         """
         return self.name
-
     def get_id(self):
         """
         Returns the user's unique id
         """
         return self.id
-
     def get_name(self):
-        """
-        Returns the user's name
-        """
         return self.name
-
     def get_email(self):
-        """
-        Returns the user's email
-        """
         return self.email
-
     def get_hashed_password(self):
-        """
-        Returns the hashed password
-        """
         return self.hashed_password
 
 class Snippit(models.Model):
@@ -93,44 +67,19 @@ class Snippit(models.Model):
         String for representing the Model object.
         """
         return self.name
-
     def get_id(self):
-        """
-        Returns the id
-        """
         return self.id
     def get_user_id(self):
-        """
-        Returns the user's unique id
-        """
         return self.user_id
-
     def get_name(self):
-        """
-        Returns the Snippit's name
-        """
         return self.name
-
     def get_description(self):
-        """
-        Returns the Snippit's description
-        """
         return self.description
-
     def get_program_text(self):
-        """
-        Returns the Snippit's program text
-        """
         return self.program_text
     def get_synthesizer_result(self):
-        """
-        Returns the Snippit's synthesizer result
-        """
         return self.synthesizer_result
     def get_is_public(self):
-        """
-        Returns the Snippit's is_public value
-        """
         return self.is_public
 
 class SnippitData(models.Model):
@@ -153,19 +102,10 @@ class SnippitData(models.Model):
         """
         return self.id
     def get_snippit_id(self):
-        """
-        Returns the Snippit's unique id
-        """
         return self.snippit_id
     def get_synthesizer_time(self):
-        """
-        Returns the synthesizer's time
-        """
         return self.synthesizer_time
     def get_holes_count(self):
-        """
-        Returns the amount of holes
-        """
         return self.holes_count
 
 class HolzTable(models.Model):
@@ -232,19 +172,10 @@ class GoogleAuth(models.Model):
         """
         return self.user_id
     def get_is_authenticated(self):
-        """
-        Returns is_authenticated
-        """
         return self.is_authenticated
     def get_access_token(self):
-        """
-        Returns access_token
-        """
         return self.access_token
     def get_refresh_token(self):
-        """
-        Returns refresh_token
-        """
         return self.refresh_token
 
 class Comment(models.Model):
@@ -283,7 +214,4 @@ class Comment(models.Model):
         """
         return self.text
     def get_date(self):
-        """
-        Returns date_posted
-        """
         return self.date_posted
