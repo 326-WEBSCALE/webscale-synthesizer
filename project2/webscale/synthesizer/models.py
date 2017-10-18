@@ -95,7 +95,7 @@ class SnippitData(models.Model):
         """
         String for representing the Model object.
         """
-        return self.id
+        return str(self.id)
     def get_id(self):
         """
         Returns the snippit data's unique id
