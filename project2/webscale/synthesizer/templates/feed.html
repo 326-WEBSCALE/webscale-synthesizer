@@ -1,0 +1,164 @@
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Activity Feed</title>
+  <link rel="stylesheet" type="text/css" href="webscale-feed.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="./index.html">W E B S C A L E</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false"
+      aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="./index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./about.html">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./faq.html">FAQ</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="./feed.html">Activity Feed</a>
+        </li>
+      </ul>
+      <ul id="user-drop-down" class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
+          <div class="dropdown-menu" aria-labelledby="drop-down">
+            <a class="dropdown-item" href="./profile.html">Your Profile</a>
+            <a class="dropdown-item" href="#">Log out</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Content start-->
+  <div class="container">
+    <h1 class="page-title">Activity Feed</h1>
+    <h5 class="page-subtitle">A live view of what snippets other users are creating</h5>
+    <div id="main" class="row">
+      <div class="col">
+
+        <!-- Card start -->
+        <div class="mx-auto w-50 p-4 bg-dark feed-card">
+          <div class="row">
+            <div class="col-9 card-heading">
+              <div class="row">
+                <div><b>Rachit Nigam</b></div>
+              </div>
+              <div class="row">
+                <div>Created: <em>Logical Constants</em></div>
+              </div>
+            </div>
+            <div class="col-2 float-right">
+              <button class="btn btn-success btn-small">Load</button>
+            </div>
+          </div>
+          <div class="row card-description">
+            <div class="col-12">
+              <span><i>A small snippet based on a problem in my CS513 hw. Synthesizer was able to fill in some constants for me!</i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Card end -->
+
+        <!-- Card start -->
+        <div class="mx-auto w-50 p-4 bg-dark feed-card">
+          <div class="row">
+            <div class="col-9 card-heading ">
+              <div class="row">
+                <div><b>John Geenty</b></div>
+              </div>
+              <div class="row">
+                <div>Created: <em>Capture The Flag</em></div>
+              </div>
+            </div>
+            <div class="col-2 float-right">
+              <button class="btn btn-success btn-small">Load</button>
+            </div>
+          </div>
+          <div class="row card-description">
+            <div class="col-12">
+              <span><i>Needed to grab a secret key from a bit field, but couldn't quite nail it. Thanks Synthesizer!</i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Card end -->
+
+        <!-- Card start -->
+        <div class="mx-auto w-50 p-4 bg-dark feed-card">
+          <div class="row">
+            <div class="col-9 card-heading ">
+              <div class="row">
+                <div><b>Max Berezin</b></div>
+              </div>
+              <div class="row">
+                <div>Created: <em>Fill In The Blanks</em></div>
+              </div>
+            </div>
+            <div class="col-2 float-right">
+              <button class="btn btn-success btn-small">Load</button>
+            </div>
+          </div>
+          <div class="row card-description">
+            <div class="col-12">
+              <span><i>Was messing around with Synthesizer to see how it worked. I'm convinced it's magic.</i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Card end -->
+
+        <!-- Card start -->
+        <div class="mx-auto w-50 p-4 bg-dark feed-card">
+          <div class="row">
+            <div class="col-9 card-heading">
+              <div class="row">
+                <div><b>Steven Borst</b></div>
+              </div>
+              <div class="row">
+                <div>Created: <em>Complicated Test</em></div>
+              </div>
+            </div>
+            <div class="col-2 float-right">
+              <button class="btn btn-success btn-small">Load</button>
+            </div>
+          </div>
+          <div class="row card-description">
+            <div class="col-12">
+              <span><i>I thought this was nonsense but I started using it and now I'm the CTO of Google.</i></span>
+            </div>
+          </div>
+        </div>
+        <!-- Card end -->
+
+      </div>
+    </div>
+    <footer class="footer">
+      <hr class="footer-hr">
+      <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
+      <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
+    </footer>
+
+  </div>
+  <!-- Content end-->
+
+</body>
+
+</html>
