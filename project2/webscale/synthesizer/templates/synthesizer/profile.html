@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>Profile</title>
-  <link rel="stylesheet" type="text/css" href="webscale-profile.css">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/webscale-profile.css' %}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
     crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -16,37 +17,37 @@
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">W E B S C A L E</a>
+    <a class="navbar-brand" href="{% url 'index' %}">W E B S C A L E</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false"
       aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="./index.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./about.html">About US</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./faq.html">FAQ</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="./feed.html">Activity Feed</a>
-          </li>
-      </ul>
-      <ul id="user-drop-down" class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
-          <div class="dropdown-menu" aria-labelledby="drop-down">
-            <a class="dropdown-item" href="./profile.html">Your Profile</a>
-            <a class="dropdown-item" href="#">Log out</a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'about' %}">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'feed' %}">Activity Feed</a>
+              </li>
+            </ul>
+            <ul id="user-drop-down" class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
+                <div class="dropdown-menu" aria-labelledby="drop-down">
+                  <a class="dropdown-item" href="{% url 'profile' %}">Your Profile</a>
+                  <a class="dropdown-item" href="#">Log out</a>
+                </div>
+              </li>
+            </ul>
           </div>
-        </li>
-      </ul>
-    </div>
   </nav>
 
   <!-- Content start-->
@@ -79,7 +80,7 @@
       </div>
       <div class="col-6">
         <div class="float-right">
-          <img class="rounded profile-picture" alt="Profile Picture" src="./images/deer.jpg">
+          <img class="rounded profile-picture" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
           <br>
           <div class="upload-button">
             <button type="button" class="btn btn-sm">Upload New Photo</button>

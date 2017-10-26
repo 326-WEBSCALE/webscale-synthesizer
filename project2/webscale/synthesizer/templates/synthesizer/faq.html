@@ -11,42 +11,43 @@
     crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" type="text/css" href="webscale-faq.css">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/webscale-faq.css' %}">
 </head>
 
 <body>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="./index.html">W E B S C A L E</a>
+    <a class="navbar-brand" href="{% url 'index' %}">W E B S C A L E</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false"
       aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="./index.html">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./about.html">About Us</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="./faq.html">FAQ</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./feed.html">Activity Feed</a>
-        </li>
-      </ul>
-      <ul id="user-drop-down" class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
-          <div class="dropdown-menu" aria-labelledby="drop-down">
-            <a class="dropdown-item" href="./profile.html">Your Profile</a>
-            <a class="dropdown-item" href="#">Log out</a>
-          </div>
-        </li>
-      </ul>
-    </div>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'feed' %}">Activity Feed</a>
+            </li>
+          </ul>
+          <ul id="user-drop-down" class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
+              <div class="dropdown-menu" aria-labelledby="drop-down">
+                <a class="dropdown-item" href="{% url 'profile' %}">Your Profile</a>
+                <a class="dropdown-item" href="#">Log out</a>
+              </div>
+            </li>
+          </ul>
+        </div>
   </nav>
 
   <!-- Content start-->
@@ -73,7 +74,7 @@
             <pre>
               <code>
                 repeat i: W {
-                  if ((done == 0) && 
+                  if ((done == 0) &&
                      !(x & 1 << i) == 0) {
                     done = 1
                     r = 1 << i
@@ -86,15 +87,15 @@
 
           <span>
             The synthesizer will fill in the <b>??</b> with the right constants.
-            Note that this a non-trivial bit mask that is expressed easily as 
+            Note that this a non-trivial bit mask that is expressed easily as
             a loop in the spec (the second piece of code).
           </span>
         </p>
         <p>
           <span class="question"><b>What if I already know the bit-mask?</b></span>
-          <br> 
+          <br>
           That's great! However, we believe that programs should be written
-          in a way that is easy to read and maintain. A while loop in this 
+          in a way that is easy to read and maintain. A while loop in this
           case always truimps over bit-masking magic.
 
           We aim to bring together the benefits of expressive and fast running
@@ -104,16 +105,16 @@
         <p>
           <span class="question"><b>How well does it scale? Can it synthesize
           constants for jQuery</b></span>
-          <br> 
+          <br>
           Short Answer, No. This program does not scale to jQuery well because
-          of the underlying SAT solving algorithm's exponential complexity. 
+          of the underlying SAT solving algorithm's exponential complexity.
           However, developers usually write programs in small and meaningful
           chunks. The use case for this synthesizer is to build such simple
           pieces incrementally, using the tool when the developer thinks That
           bit-masking magic with help with performance.
         </p>
         <p>
-          <span class="question"><b>How does this work?</b></span> 
+          <span class="question"><b>How does this work?</b></span>
           <br>
           The synthesizer makes use of something called Counter-Example
           Driven code generation. We take an input spec and compile it into
