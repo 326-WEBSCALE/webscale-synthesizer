@@ -21,7 +21,7 @@ def about(request):
     return render(
         request,
         'synthesizer/about.html',
-        context={'page_title': 'W E B S C A L E'},
+        context={'page_title': 'About Us'},
     )
 def discussion(request):
     """
@@ -30,6 +30,7 @@ def discussion(request):
     return render(
         request,
         'synthesizer/discussion.html',
+        context={'page_title': 'Discussion'}
     )
 def faq(request):
     """
