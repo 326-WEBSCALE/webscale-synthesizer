@@ -9,93 +9,93 @@
 
 <!-- Content start-->
 {% block content %}
-  <div id="main" class="container">
+<div id="main" class="container">
     <h1>Profile</h1>
     <hr class="heading-hr">
     <div class="row">
-      <div class="col-6">
-        <form>
-          <div class="form-group">
-            <label for="name-input">Name</label>
-            <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value="Jane Doe">
-          </div>
-          <div class="form-group">
-            <label for="email-input">Email address</label>
-            <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value="jdoe@aol.com">
-          </div>
-          <div class="form-group">
-            <label for="password-input">Password</label>
-            <input type="password" class="form-control" id="password-input" placeholder="Enter a password..." value="******************">
-          </div>
-          <div class="form-group">
-            <label for="drive-auth">Google Drive</label>
-            <br>
-            <span id="drive-auth" class="checkmark" aria-hidden="true">&#10004;</span><span>Authorized for your Google Drive</span>
-            <button type="button" class="btn btn-danger btn-sm btn-leftpad">Revoke </button>
-          </div>
-          <button type="submit" class="btn btn-primary">Save Changes</button>
-        </form>
-      </div>
-      <div class="col-6">
-        <div class="float-right">
-          <img class="rounded profile-picture" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
-          <br>
-          <div class="upload-button">
-            <button type="button" class="btn btn-sm">Upload New Photo</button>
-          </div>
+        <div class="col-6">
+            <form>
+                <div class="form-group">
+                    <label for="name-input">Name</label>
+                    <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email-input">Email address</label>
+                    <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value="jdoe@aol.com">
+                </div>
+                <div class="form-group">
+                    <label for="password-input">Password</label>
+                    <input type="password" class="form-control" id="password-input" placeholder="Enter a password..." value="******************">
+                </div>
+                <div class="form-group">
+                    <label for="drive-auth">Google Drive</label>
+                    <br>
+                    <span id="drive-auth" class="checkmark" aria-hidden="true">&#10004;</span><span>Authorized for your Google Drive</span>
+                    <button type="button" class="btn btn-danger btn-sm btn-leftpad">Revoke </button>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
         </div>
-      </div>
+        <div class="col-6">
+            <div class="float-right">
+                <img class="rounded profile-picture" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
+                <br>
+                <div class="upload-button">
+                    <button type="button" class="btn btn-sm">Upload New Photo</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <hr class="heading-hr">
     <br>
 
     <div class="row">
-      <h4>Saved Programs:</h4>
-      <table class="table table-striped program-table">
-        <thead>
-          <tr>
-            <th>Program Name</th>
-            <th>Description</th>
-            <th>Public</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>CS230 HW Assignment 4</td>
-            <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help me out.
-            </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-          </tr>
-          <tr>
-            <td>Spire Automator</td>
-            <td>This synthesizer is just what I needed for my personal project. I know I'll get in to CS326 now!</td>
-            <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
-            <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-          </tr>
-          <tr>
-            <td>Twitter GeoVisualizer</td>
-            <td>I've always wanted to know where all these pesky tweeters are and with Synthesizer's help I can finally see. </td>
-            <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-            <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-          </tr>
-          <tr>
-            <td>Side Project</td>
-            <td>New <del>death-ray</del> peace-ray I'm working on and I'd rather not worry about the constants. THANKS Synthesizer!</td>
-            <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
-            <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-          </tr>
-        </tbody>
+        <h4>Saved Programs:</h4>
+        <table class="table table-striped program-table">
+            <thead>
+                <tr>
+                    <th>Program Name</th>
+                    <th>Description</th>
+                    <th>Public</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CS230 HW Assignment 4</td>
+                    <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help me out.
+                    </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Spire Automator</td>
+                    <td>This synthesizer is just what I needed for my personal project. I know I'll get in to CS326 now!</td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Twitter GeoVisualizer</td>
+                    <td>I've always wanted to know where all these pesky tweeters are and with Synthesizer's help I can finally see. </td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>Side Project</td>
+                    <td>New <del>death-ray</del> peace-ray I'm working on and I'd rather not worry about the constants. THANKS Synthesizer!</td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
+                </tr>
+            </tbody>
     </div>
 
     <footer class="footer">
-      <hr class="footer-hr">
-      <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
-      <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
+        <hr class="footer-hr">
+        <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
+        <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
     </footer>
 
-  </div>
-  {% endblock %}
-  <!-- Content end-->
+</div>
+{% endblock %}
+<!-- Content end-->
