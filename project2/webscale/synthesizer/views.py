@@ -30,7 +30,7 @@ def discussion(request):
     return render(
         request,
         'synthesizer/discussion.html',
-        context={'page_title': 'Discussion'}
+        context={'page_title': 'Discussion'},
     )
 def faq(request):
     """
@@ -39,6 +39,7 @@ def faq(request):
     return render(
         request,
         'synthesizer/faq.html',
+        context={'page_title': 'FAQ'},
     )
 def feed(request):
     """

@@ -1,78 +1,36 @@
-<html>
+{% extends "base_page.html" %}
 
-<head>
-  <meta charset="utf-8">
-  <title>FAQ</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-    crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-    crossorigin="anonymous"></script>
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/webscale-faq.css' %}">
-</head>
+{% block title %}<title>{{ page_title }}</title>{% endblock %}
 
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'index' %}">W E B S C A L E</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false"
-      aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/webscale-faq.css' %}">
+{% endblock %}
 
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'index' %}">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About Us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'faq' %}">FAQ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'feed' %}">Activity Feed</a>
-            </li>
-          </ul>
-          <ul id="user-drop-down" class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="drop-down" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jane Doe</a>
-              <div class="dropdown-menu" aria-labelledby="drop-down">
-                <a class="dropdown-item" href="{% url 'profile' %}">Your Profile</a>
-                <a class="dropdown-item" href="#">Log out</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-  </nav>
-
-  <!-- Content start-->
-  <div class="container">
+<!-- Content start-->
+{% block content %}
+<div class="container">
     <h1>Frequently Asked Questions</h1>
     <div id="main" class="row justify-content-center">
-      <div class="col-7">
-        <p>
-          <span><b>What does it do?</b></span>
-          <br>
-          <span>Given the input:</span>
+        <div class="col-7">
+            <p>
+                <span><b>What does it do?</b></span>
+                <br>
+                <span>Given the input:</span>
 
-          <span>
-            <pre>
-              <code>
+                <span>
+                    <pre>
+                        <code>
                 r = (x + ??) & ~(x - ??)
                 done = 1
                 i = W - 1
-              </code>
-            </pre>
-          </span>
+                        </code>
+                    </pre>
+                </span>
 
-          <span>
-            <pre>
-              <code>
+                <span>
+                    <pre>
+                        <code>
                 repeat i: W {
                   if ((done == 0) &&
                      !(x & 1 << i) == 0) {
@@ -81,63 +39,60 @@
                   }
                 }
                 done = 1
-              </code>
-            </pre>
-          </span>
+                        </code>
+                    </pre>
+                </span>
 
-          <span>
-            The synthesizer will fill in the <b>??</b> with the right constants.
-            Note that this a non-trivial bit mask that is expressed easily as
-            a loop in the spec (the second piece of code).
-          </span>
-        </p>
-        <p>
-          <span class="question"><b>What if I already know the bit-mask?</b></span>
-          <br>
-          That's great! However, we believe that programs should be written
-          in a way that is easy to read and maintain. A while loop in this
-          case always truimps over bit-masking magic.
+                <span>
+                    The synthesizer will fill in the <b>??</b> with the right constants.
+                    Note that this a non-trivial bit mask that is expressed easily as
+                    a loop in the spec (the second piece of code).
+                </span>
+            </p>
+            <p>
+                <span class="question"><b>What if I already know the bit-mask?</b></span>
+                <br>
+                That's great! However, we believe that programs should be written
+                in a way that is easy to read and maintain. A while loop in this
+                case always truimps over bit-masking magic.
 
-          We aim to bring together the benefits of expressive and fast running
-          code using this synthesis technique. As programs grow more complex,
-          we believe techniques like this would help program maintainability.
-        </p>
-        <p>
-          <span class="question"><b>How well does it scale? Can it synthesize
-          constants for jQuery</b></span>
-          <br>
-          Short Answer, No. This program does not scale to jQuery well because
-          of the underlying SAT solving algorithm's exponential complexity.
-          However, developers usually write programs in small and meaningful
-          chunks. The use case for this synthesizer is to build such simple
-          pieces incrementally, using the tool when the developer thinks That
-          bit-masking magic with help with performance.
-        </p>
-        <p>
-          <span class="question"><b>How does this work?</b></span>
-          <br>
-          The synthesizer makes use of something called Counter-Example
-          Driven code generation. We take an input spec and compile it into
-          Hoare-logic style transformer. We then encode it into a SAT solver.
-          We do the same for the sketched program and then give the SAT
-          solver the constraint that the two programs must match on all
-          inputs and get the results to the ??.
-        </p>
-        <p>
-          <span><b>Is this project open source?</b></span>
-          <br> Yes! Check it out at <a href="https://github.com/326-WEBSCALE/webscale-synthesizer">our github page</a>
-        </p>
-      </div>
+                We aim to bring together the benefits of expressive and fast running
+                code using this synthesis technique. As programs grow more complex,
+                we believe techniques like this would help program maintainability.
+            </p>
+            <p>
+                <span class="question"><b>How well does it scale? Can it synthesize
+                    constants for jQuery</b></span>
+                <br>
+                Short Answer, No. This program does not scale to jQuery well because
+                of the underlying SAT solving algorithm's exponential complexity.
+                However, developers usually write programs in small and meaningful
+                chunks. The use case for this synthesizer is to build such simple
+                pieces incrementally, using the tool when the developer thinks That
+                bit-masking magic with help with performance.
+            </p>
+            <p>
+                <span class="question"><b>How does this work?</b></span>
+                <br>
+                The synthesizer makes use of something called Counter-Example
+                Driven code generation. We take an input spec and compile it into
+                Hoare-logic style transformer. We then encode it into a SAT solver.
+                We do the same for the sketched program and then give the SAT
+                solver the constraint that the two programs must match on all
+                inputs and get the results to the ??.
+            </p>
+            <p>
+                <span><b>Is this project open source?</b></span>
+                <br> Yes! Check it out at <a href="https://github.com/326-WEBSCALE/webscale-synthesizer">our github page</a>
+            </p>
+        </div>
     </div>
 
     <footer class="footer">
-      <hr class="footer-hr">
-      <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
-      <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
+        <hr class="footer-hr">
+        <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
+        <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
     </footer>
-
-  </div>
-  <!-- Content end-->
-
-</body>
-</html>
+</div>
+{% endblock %}
+<!-- Content end-->
