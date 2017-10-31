@@ -24,6 +24,5 @@ urlpatterns = [
 from django.conf.urls import include
 
 urlpatterns += [
-    url(r'^synthesizer/', include('synthesizer.urls')),
-    url(r'^$', include('synthesizer.urls')),
+    url(r'^', include('synthesizer.urls')),
 ]
