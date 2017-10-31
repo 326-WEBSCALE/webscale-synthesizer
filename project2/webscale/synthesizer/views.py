@@ -11,6 +11,7 @@ def index(request):
     return render(
         request,
         'index.html',
+        context={'page_title': 'W E B S C A L E'},
     )
 
 def about(request):
@@ -20,6 +21,7 @@ def about(request):
     return render(
         request,
         'synthesizer/about.html',
+        context={'page_title': 'W E B S C A L E'},
     )
 def discussion(request):
     """
