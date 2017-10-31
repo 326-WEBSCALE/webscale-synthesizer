@@ -3,27 +3,30 @@ from django.shortcuts import render
 # Create your views here.
 from .models import *
 
-def index(request):
+def index(request, snippetID=None):
     """
     View function for home page of site.
     """
-    # Generate counts of some of the main objects
-    d = '14debd2def58452ab795a6b973977920'
-    snippet = Snippit.objects.get(pk=d)
-    all_user_snippets = map(lambda snip: (snip.get_id(), snip.get_name(), snip.get_description()),
+    page_context = {'page_title': 'W E B S C A L E'}
+    if snippetID is None:
+        return render(request, 'index.html', page_context)
+
+    snippet = Snippit.objects.get(pk=snippetID)
+    all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
                             Snippit.objects.filter(user_id=snippet.get_user_id()))
+
+    page_context['snippet_name'] = ": {0}".format(snippet.get_name())
+    page_context['snippet_user_id'] = snippet.get_user_id()
+    page_context['snippet_description'] = snippet.get_description()
+    page_context['snippet_text'] = snippet.get_program_text()
+    page_context['snippet_result'] = snippet.get_synthesizer_result()
+    page_context['snippet_is_public'] = snippet.get_is_public()
+    page_context['all_user_snippets'] = all_user_snippets
+
     return render(
         request,
         'index.html',
-        context={'page_title': 'W E B S C A L E',
-                 'snippet_name': ": {0}".format(snippet.get_name()),
-                 'snippet_user_id': snippet.get_user_id(),
-                 'snippet_description': snippet.get_description(),
-                 'snippet_text': snippet.get_program_text(),
-                 'snippet_result': snippet.get_synthesizer_result(),
-                 'snippet_is_public': snippet.get_is_public(),
-                 'all_user_snippets': all_user_snippets,
-        },
+        page_context,
     )
 
 def about(request):
