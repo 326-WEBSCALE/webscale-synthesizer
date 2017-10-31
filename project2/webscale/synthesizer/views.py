@@ -8,10 +8,20 @@ def index(request):
     View function for home page of site.
     """
     # Generate counts of some of the main objects
+    d = '14debd2def58452ab795a6b973977920'
+    snippet = Snippit.objects.get(pk=d)
+    print("THING: {0}".format(snippet.get_description()))
     return render(
         request,
         'index.html',
-        context={'page_title': 'W E B S C A L E'},
+        context={'page_title': 'W E B S C A L E',
+                 'snippet_name': snippet.get_name(),
+                 'snippet_user_id': snippet.get_user_id(),
+                 'snippet_description': snippet.get_description(),
+                 'snippet_text': snippet.get_program_text(),
+                 'snippet_result': snippet.get_synthesizer_result(),
+                 'snippet_is_public': snippet.get_is_public(),
+        },
     )
 
 def about(request):
