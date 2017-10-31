@@ -48,6 +48,7 @@ def feed(request):
     return render(
         request,
         'synthesizer/feed.html',
+        context={'page_title': 'Activity Feed'},
     )
 def profile(request):
     """
