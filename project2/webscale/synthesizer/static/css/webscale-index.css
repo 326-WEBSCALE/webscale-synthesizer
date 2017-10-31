@@ -25,7 +25,7 @@ html, body {
     padding-right: 0px !important;
 }
 
-#main { 
+#main {
     height: calc(100vh - 55px);
     overflow: hidden;
 }
@@ -52,6 +52,7 @@ html, body {
 
  .results {
     height: 25%;
+    padding-left: 5px;
     border-bottom: 1px solid gray;
     border-top: 1px solid gray;
     background: black;
@@ -61,6 +62,7 @@ html, body {
 
 .output {
     height: 75%;
+    padding-left: 5px;
     background: black;
     color: rgba(255, 255, 255, 0.86);
     overflow: auto;
@@ -78,4 +80,9 @@ html, body {
 
 tbody > tr:hover {
     background: rgba(82, 80, 80, 0.26) !important;
+}
+
+.section-title {
+    color: white;
+    padding-left: 5px;
 }

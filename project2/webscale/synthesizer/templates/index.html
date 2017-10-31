@@ -22,17 +22,18 @@
 
                 <!-- Editor Start  -->
                 <div class="col-6 no-padding-right">
-                    <textarea class="form-control editor" placeholder="Type your program here..."></textarea>
+                    <span class="section-title">Snippet</span>
+                    <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea>
                 </div>
                 <!-- Editor End  -->
                 <!-- Outputs start -->
                 <div class="col-6 no-padding">
+                    <span class="section-title">Output</span>
                     <div class="results">
-                        The results of the synthesizer will appear here.
+                        {{ snippet_result }}
                     </div>
-                    <div class="output">
-                        The output of the synthesizer will appear here.
-                    </div>
+                    <span class="section-title">Assertions</span>
+                    <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea>
                 </div>
                 <!-- Outputs end -->
             </div>
