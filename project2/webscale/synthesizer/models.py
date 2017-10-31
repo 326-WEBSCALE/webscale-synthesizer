@@ -108,11 +108,11 @@ class SnippitData(models.Model):
     def get_holes_count(self):
         return self.holes_count
 
-class HolzTable(models.Model):
+class HolesTable(models.Model):
     """
-    Model for HolzTable
+    Model for HolesTable
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this Holz Table")
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this Holes Table")
     snippit_id = models.ForeignKey('Snippit', on_delete=models.SET_NULL, null=True)
     hole = models.CharField(max_length=200, help_text="Enter hole")
     constant = models.CharField(max_length=200, help_text="Enter constant")
@@ -124,7 +124,7 @@ class HolzTable(models.Model):
         return self.id
     def get_id(self):
         """
-        Returns the Holz Table's unique id
+        Returns the Holes Table's unique id
         """
         return self.id
     def get_snippit_id(self):
@@ -134,12 +134,12 @@ class HolzTable(models.Model):
         return self.snippit_id
     def get_hole(self):
         """
-        Returns the Holz Table hole
+        Returns the Holes Table hole
         """
         return self.hole
     def get_constant(self):
         """
-        Returns the Holz Table constant
+        Returns the Holes Table constant
         """
         return self.constant
 
