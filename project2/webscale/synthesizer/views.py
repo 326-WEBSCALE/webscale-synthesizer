@@ -57,4 +57,5 @@ def profile(request):
     return render(
         request,
         'synthesizer/profile.html',
+        context={'page_title': 'Profile'},
     )
