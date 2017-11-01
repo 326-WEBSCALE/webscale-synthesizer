@@ -15,7 +15,7 @@ def index(request, snippetID=None):
     all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
                             Snippit.objects.filter(user_id=snippet.get_user_id()))
 
-    page_context['snippet_id'] = snippet.get_id()
+    page_context['snippet_id'] = snippet.get_id().hex
     page_context['snippet_name'] = ": {0}".format(snippet.get_name())
     page_context['snippet_user_id'] = snippet.get_user_id()
     page_context['snippet_description'] = snippet.get_description()
@@ -39,14 +39,24 @@ def about(request):
         'synthesizer/about.html',
         context={'page_title': 'About Us'},
     )
-def discussion(request):
+def discussion(request, snippetID):
     """
     View function for the discussion page.
     """
+    page_context = {'page_title': 'Discussion'}
+    snippet = Snippit.objects.get(pk=snippetID)
+
+    page_context['snippet_id'] = snippet.get_id().hex
+    page_context['snippet_name'] = snippet.get_name()
+    page_context['snippet_user_id'] = snippet.get_user_id()
+    page_context['snippet_description'] = snippet.get_description()
+    page_context['snippet_text'] = snippet.get_program_text()
+    page_context['snippet_result'] = snippet.get_synthesizer_result()
+
     return render(
         request,
         'synthesizer/discussion.html',
-        context={'page_title': 'Discussion'},
+        page_context,
     )
 def faq(request):
     """

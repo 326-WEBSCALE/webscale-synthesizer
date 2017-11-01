@@ -14,31 +14,29 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <h4 class="card-title">My interesting program!</h4>
-                    <h6 class="card-subtitle mb-2 text-muted">this was a program I wrote for a class in college.</h6>
+                    <h4 class="card-title">{{ snippet_name }}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ snippet_description }}</h6>
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-6">
                                 <div class="card">
-                                    <div class="card-header">Input</div>
+                                    <div class="card-header">Snippet</div>
                                     <div class="card-body">
-                                        <pre>
-  int secretOperation(int n) {
-    return n >> ???;
-  }
-                                        </pre>
+                                        <pre>{{ snippet_text }}</pre>
+                                        <!-- int secretOperation(int n) { -->
+                                        <!-- return n >> ???; -->
+                                        <!-- } -->
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="card">
-                                    <div class="card-header">Output</div>
+                                    <div class="card-header">Synthesizer Output</div>
                                     <div class="card-body">
-                                        <pre>
-  int secretOperation(int n) {
-    return n >> 0x9ef;
-  }
-                                        </pre>
+                                        <pre>{{ snippet_result }}</pre>
+                                        <!-- int secretOperation(int n) { -->
+                                        <!-- return n >> 0x9ef; -->
+                                        <!-- } -->
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +46,9 @@
             </div>
         </div>
         <div class="row comments">
-            <div class="comments col-6">
+            <div class="comments col-2">
+            </div>
+            <div class="comments col-8">
                 <div class="card comment">
                     <div class="card-body">
                         <h4 class="card-title">John Smith</h4>
