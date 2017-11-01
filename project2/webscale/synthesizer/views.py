@@ -88,6 +88,8 @@ def profile(request, profile_id="0"):
     If the given profile id argument is not given, the profile of
     the current user will be shown
     """
+    if profile_id == "0":
+        profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
     user = get_object_or_404(User, id=profile_id)
     return render(
         request,

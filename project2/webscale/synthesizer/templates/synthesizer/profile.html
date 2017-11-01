@@ -13,6 +13,9 @@
     <div class="row">
         <div class="col-6">
             <h1>{{ user.name }}</h1>
+            {% if user.name == "Steven Borst" %}
+            <a href="{% url 'profile_edit' %}">edit</a>
+            {% endif %}
         </div>
         <div class="col-3"><!-- Couldn't get offset to work, temp fix--></div>
         <div class="col-3 profile-picture-container">
