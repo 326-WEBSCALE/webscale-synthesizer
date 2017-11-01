@@ -17,6 +17,12 @@ body {
   padding-bottom: 150px;
 }
 
+.page-title {
+    text-align: center;
+    padding-top: 20px;
+    color: white;
+}
+
 #user-drop-down {
 	padding-right: 100px;
 }
@@ -36,7 +42,6 @@ body {
 .footer {
 	color: white;
   padding: 10px 40px 10px 40px;
-  position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
