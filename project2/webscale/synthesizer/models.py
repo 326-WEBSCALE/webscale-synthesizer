@@ -52,7 +52,9 @@ class Snippit(models.Model):
     user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
     name = models.CharField('Name', max_length=200, help_text="Enter name")
     description = models.TextField(max_length=1000, help_text="Enter the snippit description")
-    program_text = models.TextField(max_length=99999, help_text="Enter the program text")
+    program_text = models.TextField(max_length=99999, help_text="Enter the program holes")
+    program_spec = models.TextField(max_length=99999, help_text="Enter the program spec")
+
     """
     The synthesizer result needs to be a different kind of model field that will be generated, not entered
     """
@@ -77,6 +79,8 @@ class Snippit(models.Model):
         return self.description
     def get_program_text(self):
         return self.program_text
+    def get_program_spec(self):
+        return self.program_spec
     def get_synthesizer_result(self):
         return self.synthesizer_result
     def get_is_public(self):

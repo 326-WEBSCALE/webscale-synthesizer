@@ -24,6 +24,7 @@ def index(request, snippetID=None):
     page_context['snippet_user_id'] = snippet.get_user_id()
     page_context['snippet_description'] = snippet.get_description()
     page_context['snippet_text'] = snippet.get_program_text()
+    page_context['snippet_spec'] = snippet.get_program_spec()
     page_context['snippet_result'] = snippet.get_synthesizer_result()
     page_context['snippet_is_public'] = snippet.get_is_public()
     page_context['all_user_snippets'] = all_user_snippets

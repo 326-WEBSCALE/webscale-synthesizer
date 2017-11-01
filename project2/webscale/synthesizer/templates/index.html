@@ -28,9 +28,9 @@
                 <!-- Editor Start  -->
                 <div class="col-6 no-padding-right">
 
-                    <span class="section-title">Program Specification {{ snippet_name }}</span>
+                    <span class="section-title">Program Specification{{ snippet_name }}</span>
                     <!-- <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea> -->
-                    <div id="spec_editor" class="editor">{{ snippet_text }}</div>
+                    <div id="spec_editor" class="editor">{{  snippet_spec }}</div>
 
                 </div>
                 <!-- Editor End  -->
@@ -40,11 +40,7 @@
                     <div id="synth_results" class="results">{{ snippet_result }}</div>
                     <span class="section-title">Program Constants</span>
                     <!-- <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea> -->
-                    <div id="snippet_editor" class="editor">function foo(items) {
-                    var x = "All this is syntax highlighted";
-                    return x;
-                    }
-                    </div>
+                    <div id="snippet_editor" class="editor">{{  snippet_text }}</div>
                 </div>
                 <!-- Outputs end -->
             </div>
