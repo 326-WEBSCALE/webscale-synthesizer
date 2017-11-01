@@ -11,9 +11,13 @@ def index(request, snippetID=None):
     if snippetID is None:
         return render(request, 'index.html', page_context)
 
+    # Normally the user would be determined by the session, but here we will
+    # use Steve's account as an example
+    example_user = User.objects.get(name='Steven Borst')
+
     snippet = Snippit.objects.get(pk=snippetID)
     all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
-                            Snippit.objects.filter(user_id=snippet.get_user_id()))
+                            Snippit.objects.filter(user_id=example_user.get_id()))
 
     page_context['snippet_id'] = snippet.get_id().hex
     page_context['snippet_name'] = ": {0}".format(snippet.get_name())

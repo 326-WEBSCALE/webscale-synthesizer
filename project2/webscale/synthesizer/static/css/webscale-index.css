@@ -39,10 +39,10 @@ html, body {
 
 .editor {
     height: 100%;
-    resize: none;
+    /* resize: none; */
     border: 1px solid gray !important;
-    background: black !important;
-    color: rgba(255, 255, 255, 0.86) !important;
+    /* background: black !important; */
+    /* color: rgba(255, 255, 255, 0.86) !important; */
     border-radius: 0px !important;
     overflow: auto;
  }
@@ -55,8 +55,8 @@ html, body {
     padding-left: 5px;
     border-bottom: 1px solid gray;
     border-top: 1px solid gray;
-    background: black;
-    color: rgba(255, 255, 255, 0.86);
+    /* background: black; */
+    /* color: rgba(255, 255, 255, 0.86); */
     overflow: auto;
 }
 

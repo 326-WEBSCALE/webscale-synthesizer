@@ -1,5 +1,10 @@
 {% extends "base_page.html" %}
 
+{% block extra_assets %}
+{% load static %}
+<script src="{% static 'js/ace-min-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
 {% block content %}
 <!-- Content start-->
 <div id="main" class="container-fluid">
@@ -22,18 +27,24 @@
 
                 <!-- Editor Start  -->
                 <div class="col-6 no-padding-right">
-                    <span class="section-title">Snippet{{ snippet_name }}</span>
-                    <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea>
+
+                    <span class="section-title">Program Specification {{ snippet_name }}</span>
+                    <!-- <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea> -->
+                    <div id="spec_editor" class="editor">{{ snippet_text }}</div>
+
                 </div>
                 <!-- Editor End  -->
                 <!-- Outputs start -->
                 <div class="col-6 no-padding">
                     <span class="section-title">Output</span>
-                    <div class="results">
-                        {{ snippet_result }}
+                    <div id="synth_results" class="results">{{ snippet_result }}</div>
+                    <span class="section-title">Program Constants</span>
+                    <!-- <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea> -->
+                    <div id="snippet_editor" class="editor">function foo(items) {
+                    var x = "All this is syntax highlighted";
+                    return x;
+                    }
                     </div>
-                    <span class="section-title">Assertions</span>
-                    <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea>
                 </div>
                 <!-- Outputs end -->
             </div>
@@ -263,5 +274,29 @@
  if (snippetID != '') {
      element.style.display = "";
  }
+</script>
+<script>
+ const spec_editor = ace.edit("spec_editor");
+ const snippet_editor = ace.edit("snippet_editor");
+ const synth_results = ace.edit("synth_results");
+
+ spec_editor.setTheme("ace/theme/monokai");
+ spec_editor.getSession().setMode("ace/mode/python");
+ spec_editor.session.setUseWorker(false)
+ spec_editor.setShowPrintMargin(false);
+
+ snippet_editor.setTheme("ace/theme/monokai");
+ snippet_editor.getSession().setMode("ace/mode/python");
+ snippet_editor.session.setUseWorker(false)
+ snippet_editor.setShowPrintMargin(false);
+
+ synth_results.setTheme("ace/theme/monokai");
+ synth_results.getSession().setMode("ace/mode/python");
+ synth_results.session.setUseWorker(false)
+ synth_results.setShowPrintMargin(false);
+ synth_results.renderer.setShowGutter(false);
+ synth_results.setOptions({
+     readOnly: true
+ });
 </script>
 {% endblock %}
