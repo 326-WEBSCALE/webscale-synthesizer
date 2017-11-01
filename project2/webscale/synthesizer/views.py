@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 # Create your views here.
 from .models import *
@@ -76,12 +76,25 @@ def feed(request):
         'synthesizer/feed.html',
         context={'page_title': 'Activity Feed'},
     )
-def profile(request):
+def profile(request, profile_id="0"):
     """
-    View function for the profile page.
+    View function for a profile page.
+    If the given profile id argument is not given, the profile of
+    the current user will be shown
     """
+    user = get_object_or_404(User, id=profile_id)
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': 'Profile'},
+        context={'page_title': user.name, 'user': user},
+    )
+
+def profile_edit(request):
+    """
+    Allows a user to edit their profile
+    """
+    return render(
+        request,
+        'synthesizer/profile_edit.html',
+        context={'page_title': 'Edit Profile'},
     )
