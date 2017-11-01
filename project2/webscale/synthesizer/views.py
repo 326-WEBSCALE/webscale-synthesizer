@@ -15,6 +15,7 @@ def index(request, snippetID=None):
     all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
                             Snippit.objects.filter(user_id=snippet.get_user_id()))
 
+    page_context['snippet_id'] = snippet.get_id()
     page_context['snippet_name'] = ": {0}".format(snippet.get_name())
     page_context['snippet_user_id'] = snippet.get_user_id()
     page_context['snippet_description'] = snippet.get_description()

@@ -8,7 +8,7 @@
         <div class="col-1">
             <div class="btn-group-vertical action-buttons">
                 <button type="button" class="btn btn-primary item">Synthesize!</button>
-                <a href="{% url 'discussion' %}" class="btn btn-warning item">Discuss</a>
+                <a id="discuss-button" href="{% url 'discussion' %}" class="btn btn-warning item" style="display: none;">Discuss</a>
                 <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
                 <button type="button" data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
                 <button type="button" data-toggle="modal" href="#search-modal" class="btn btn-info item">Search</button>
@@ -256,4 +256,12 @@
     </div>
 </div>
 <!-- Search modal end -->
+
+<script type="text/javascript">
+ const snippetID = "{{ snippet_id }}";
+ const element = document.getElementById('discuss-button');
+ if (snippetID != '') {
+     element.style.display = "";
+ }
+</script>
 {% endblock %}
