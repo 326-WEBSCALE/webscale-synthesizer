@@ -17,6 +17,12 @@ body {
   padding-bottom: 150px;
 }
 
+.page-title {
+    text-align: center;
+    padding-top: 20px;
+    color: white;
+}
+
 #user-drop-down {
 	padding-right: 100px;
 }
