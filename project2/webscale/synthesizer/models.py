@@ -121,7 +121,7 @@ class HolesTable(models.Model):
         """
         String for representing the Model object.
         """
-        return self.id
+        return str(self.id)
     def get_id(self):
         """
         Returns the Holes Table's unique id
@@ -160,7 +160,7 @@ class GoogleAuth(models.Model):
         """
         String for representing the Model object.
         """
-        return self.id
+        return str(self.id)
     def get_id(self):
         """
         Returns the GoogleAuth's unique id
@@ -192,7 +192,7 @@ class Comment(models.Model):
         """
         String for representing the Model object.
         """
-        return self.id
+        return str(self.id)
     def get_id(self):
         """
         Returns the comment's unique id

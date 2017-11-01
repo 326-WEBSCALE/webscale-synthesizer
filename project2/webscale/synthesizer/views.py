@@ -45,13 +45,17 @@ def discussion(request, snippetID):
     """
     page_context = {'page_title': 'Discussion'}
     snippet = Snippit.objects.get(pk=snippetID)
-
+    snippet_comments = map(lambda comment: (comment.get_user_id().get_name(),
+                         comment.get_text(), comment.get_date()),
+                            Comment.objects.filter(snippit_id=snippetID))
+    print(list(snippet_comments))
     page_context['snippet_id'] = snippet.get_id().hex
     page_context['snippet_name'] = snippet.get_name()
     page_context['snippet_user_id'] = snippet.get_user_id()
     page_context['snippet_description'] = snippet.get_description()
     page_context['snippet_text'] = snippet.get_program_text()
     page_context['snippet_result'] = snippet.get_synthesizer_result()
+    page_context['snippet_comments'] = snippet_comments
 
     return render(
         request,
