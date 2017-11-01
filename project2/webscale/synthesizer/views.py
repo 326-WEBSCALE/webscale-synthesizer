@@ -8,16 +8,19 @@ def index(request, snippetID=None):
     View function for home page of site.
     """
     page_context = {'page_title': 'W E B S C A L E'}
-    if snippetID is None:
-        return render(request, 'index.html', page_context)
 
     # Normally the user would be determined by the session, but here we will
     # use Steve's account as an example
     example_user = User.objects.get(name='Steven Borst')
-
-    snippet = Snippit.objects.get(pk=snippetID)
     all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
                             Snippit.objects.filter(user_id=example_user.get_id()))
+    page_context['all_user_snippets'] = all_user_snippets
+
+    if snippetID is None:
+        return render(request, 'index.html', page_context)
+
+
+    snippet = Snippit.objects.get(pk=snippetID)
 
     page_context['snippet_id'] = snippet.get_id().hex
     page_context['snippet_name'] = ": {0}".format(snippet.get_name())
@@ -27,7 +30,6 @@ def index(request, snippetID=None):
     page_context['snippet_spec'] = snippet.get_program_spec()
     page_context['snippet_result'] = snippet.get_synthesizer_result()
     page_context['snippet_is_public'] = snippet.get_is_public()
-    page_context['all_user_snippets'] = all_user_snippets
 
     return render(
         request,
