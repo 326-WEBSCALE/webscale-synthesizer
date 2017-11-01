@@ -10,45 +10,16 @@
 <!-- Content start-->
 {% block content %}
 <div id="main" class="container">
-    <h1>Profile</h1>
-    <hr class="heading-hr">
     <div class="row">
         <div class="col-6">
-            <form>
-                <div class="form-group">
-                    <label for="name-input">Edit Profile</label>
-                    <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value="Jane Doe">
-                </div>
-                <div class="form-group">
-                    <label for="email-input">Email address</label>
-                    <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value="jdoe@aol.com">
-                </div>
-                <div class="form-group">
-                    <label for="password-input">Password</label>
-                    <input type="password" class="form-control" id="password-input" placeholder="Enter a password..." value="******************">
-                </div>
-                <div class="form-group">
-                    <label for="drive-auth">Google Drive</label>
-                    <br>
-                    <span id="drive-auth" class="checkmark" aria-hidden="true">&#10004;</span><span>Authorized for your Google Drive</span>
-                    <button type="button" class="btn btn-danger btn-sm btn-leftpad">Revoke </button>
-                </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
+            <h1>{{ user.name }}</h1>
         </div>
-        <div class="col-6">
-            <div class="float-right">
-                <img class="rounded profile-picture" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
-                <br>
-                <div class="upload-button">
-                    <button type="button" class="btn btn-sm">Upload New Photo</button>
-                </div>
-            </div>
+        <div class="col-3"><!-- Couldn't get offset to work, temp fix--></div>
+        <div class="col-3 profile-picture-container">
+            <img class="rounded profile-picture profile-picture-small" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
         </div>
     </div>
-
     <hr class="heading-hr">
-    <br>
 
     <div class="row">
         <h4>Saved Programs:</h4>
