@@ -62,31 +62,14 @@
                 </tr>
             </thead>
             <tbody>
+                {% for program in programs %}
                 <tr>
-                    <td>CS230 HW Assignment 4</td>
-                    <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help me out.
-                    </td>
+                    <td>{{program.name}}</td>
+                    <td>{{program.description}}</td>
                     <td class="text-center"><input type="checkbox" class="form-check-input"></td>
                     <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
                 </tr>
-                <tr>
-                    <td>Spire Automator</td>
-                    <td>This synthesizer is just what I needed for my personal project. I know I'll get in to CS326 now!</td>
-                    <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
-                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>Twitter GeoVisualizer</td>
-                    <td>I've always wanted to know where all these pesky tweeters are and with Synthesizer's help I can finally see. </td>
-                    <td class="text-center"><input type="checkbox" class="form-check-input"></td>
-                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>Side Project</td>
-                    <td>New <del>death-ray</del> peace-ray I'm working on and I'd rather not worry about the constants. THANKS Synthesizer!</td>
-                    <td class="text-center"><input type="checkbox" class="form-check-input" checked="true"></td>
-                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
-                </tr>
+                {% endfor %}
             </tbody>
     </div>
 

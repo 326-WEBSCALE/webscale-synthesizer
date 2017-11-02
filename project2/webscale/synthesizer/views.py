@@ -98,18 +98,21 @@ def profile(request, profile_id="0"):
     if profile_id == "0":
         profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
     user = get_object_or_404(User, id=profile_id)
+    programs = Snippit.objects.filter(user_id=user.id)
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': user.name, 'user': user},
+        context={'page_title': user.name, 'user': user, 'programs': programs},
     )
 
 def profile_edit(request):
     """
     Allows a user to edit their profile
     """
+    user = User.objects.get(name='Steven Borst')
+    programs = Snippit.objects.filter(user_id=user.id)
     return render(
         request,
         'synthesizer/profile_edit.html',
-        context={'page_title': 'Edit Profile'},
+        context={'page_title': 'Edit Profile', 'programs': programs},
     )
