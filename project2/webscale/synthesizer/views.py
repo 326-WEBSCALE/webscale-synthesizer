@@ -54,7 +54,7 @@ def discussion(request, snippetID):
     snippet = Snippit.objects.get(pk=snippetID)
     snippet_comments = list(
         map(lambda comment: (comment.user_id.name,
-                         comment.text, comment.date),
+                             comment.text, comment.date_posted),
                             Comment.objects.filter(snippit_id=snippetID))
         )
     print(list(snippet_comments))

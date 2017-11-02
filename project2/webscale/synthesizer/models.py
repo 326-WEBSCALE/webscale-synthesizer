@@ -41,10 +41,7 @@ class Snippit(models.Model):
     The synthesizer result needs to be a different kind of model field that will be generated, not entered
     """
     synthesizer_result = models.TextField(max_length=99999, help_text="Enter the synthesizer result")
-    is_public = (
-        ('t', 'True'),
-        ('f', 'False'),
-    )
+    is_public = models.BooleanField(default=True, help_text="Toggle for user's public visibility")
 
     def __str__(self):
         """
@@ -88,10 +85,7 @@ class GoogleAuth(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this Google Authentication")
     user_id = models.ForeignKey('User', on_delete=models.SET_NULL, null=True)
-    is_authenticated = (
-        ('t', 'True'),
-        ('f', 'False'),
-    )
+    is_authenticated = models.BooleanField(default=True, help_text="Boolean for if user has authorized access to Drive.")
     access_token = models.CharField(max_length=200, help_text="Enter access_token")
     refresh_token = models.CharField(max_length=200, help_text="Enter refresh_token")
 
