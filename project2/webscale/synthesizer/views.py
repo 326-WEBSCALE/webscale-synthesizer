@@ -12,8 +12,8 @@ def index(request, snippetID=None):
     # Normally the user would be determined by the session, but here we will
     # use Steve's account as an example
     example_user = User.objects.get(name='Steven Borst')
-    all_user_snippets = map(lambda snip: (snip.get_id().hex, snip.get_name(), snip.get_description()),
-                            Snippit.objects.filter(user_id=example_user.get_id()))
+    all_user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
+                            Snippit.objects.filter(user_id=example_user.id))
     page_context['all_user_snippets'] = all_user_snippets
 
     if snippetID is None:
@@ -22,14 +22,14 @@ def index(request, snippetID=None):
 
     snippet = Snippit.objects.get(pk=snippetID)
 
-    page_context['snippet_id'] = snippet.get_id().hex
-    page_context['snippet_name'] = ": {0}".format(snippet.get_name())
-    page_context['snippet_user_id'] = snippet.get_user_id()
-    page_context['snippet_description'] = snippet.get_description()
-    page_context['snippet_text'] = snippet.get_program_text()
-    page_context['snippet_spec'] = snippet.get_program_spec()
-    page_context['snippet_result'] = snippet.get_synthesizer_result()
-    page_context['snippet_is_public'] = snippet.get_is_public()
+    page_context['snippet_id'] = snippet.id.hex
+    page_context['snippet_name'] = ": {0}".format(snippet.name)
+    page_context['snippet_user_id'] = snippet.user_id
+    page_context['snippet_description'] = snippet.description
+    page_context['snippet_text'] = snippet.program_text
+    page_context['snippet_spec'] = snippet.program_spec
+    page_context['snippet_result'] = snippet.synthesizer_result
+    page_context['snippet_is_public'] = snippet.is_public
 
     return render(
         request,
@@ -53,17 +53,17 @@ def discussion(request, snippetID):
     page_context = {'page_title': 'Discussion'}
     snippet = Snippit.objects.get(pk=snippetID)
     snippet_comments = list(
-        map(lambda comment: (comment.get_user_id().get_name(),
-                         comment.get_text(), comment.get_date()),
+        map(lambda comment: (comment.user_id.name,
+                         comment.text, comment.date),
                             Comment.objects.filter(snippit_id=snippetID))
         )
     print(list(snippet_comments))
-    page_context['snippet_id'] = snippet.get_id().hex
-    page_context['snippet_name'] = snippet.get_name()
-    page_context['snippet_user_id'] = snippet.get_user_id()
-    page_context['snippet_description'] = snippet.get_description()
-    page_context['snippet_text'] = snippet.get_program_text()
-    page_context['snippet_result'] = snippet.get_synthesizer_result()
+    page_context['snippet_id'] = snippet.id.hex
+    page_context['snippet_name'] = snippet.name
+    page_context['snippet_user_id'] = snippet.user_id
+    page_context['snippet_description'] = snippet.description
+    page_context['snippet_text'] = snippet.program_text
+    page_context['snippet_result'] = snippet.synthesizer_result
     page_context['snippet_comments'] = snippet_comments
 
     return render(
