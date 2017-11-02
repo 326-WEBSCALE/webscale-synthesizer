@@ -112,10 +112,12 @@ def profile_edit(request):
     """
     user = User.objects.get(name='Steven Borst')
     programs = Snippit.objects.filter(user_id=user.id)
+    profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
     return render(
         request,
         'synthesizer/profile_edit.html',
-        context={'page_title': 'Edit Profile', 'programs': programs},
+        context={'page_title': 'Edit Profile', 'programs': programs, 
+          'user': user},
     )
 
 def handler404(request):

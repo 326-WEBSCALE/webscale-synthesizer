@@ -17,11 +17,11 @@
             <form>
                 <div class="form-group">
                     <label for="name-input">Name</label>
-                    <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value="Jane Doe">
+                    <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value={{ user.name }}>
                 </div>
                 <div class="form-group">
                     <label for="email-input">Email address</label>
-                    <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value="jdoe@aol.com">
+                    <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value={{ user.email }}>
                 </div>
                 <div class="form-group">
                     <label for="password-input">Password</label>
