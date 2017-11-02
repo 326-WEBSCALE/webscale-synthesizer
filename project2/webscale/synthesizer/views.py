@@ -117,3 +117,13 @@ def profile_edit(request):
         'synthesizer/profile_edit.html',
         context={'page_title': 'Edit Profile', 'programs': programs},
     )
+
+def handler404(request):
+    """
+    The page to be rendered when the requested path is not found.
+    """
+    return render(
+        request,
+        '404.html',
+        context={'page_title': '404 Page Not Found'},
+        )
