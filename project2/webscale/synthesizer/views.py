@@ -84,7 +84,7 @@ def feed(request):
     """
     View function for the feed page.
     """
-    snippits = Snippit.objects.all().order_by('-id')[:5]
+    snippits = Snippit.objects.filter(is_public=True).order_by('-id')[:5]
     return render(
         request,
         'synthesizer/feed.html',
