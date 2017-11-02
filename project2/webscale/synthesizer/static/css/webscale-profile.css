@@ -25,6 +25,12 @@ h1 {
   padding-top: 20px;
 }
 
+.profile-header-middle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .profile-picture-container {
     position: relative;
 }

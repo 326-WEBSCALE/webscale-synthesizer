@@ -13,11 +13,12 @@
     <div class="row">
         <div class="col-6">
             <h1>{{ user.name }}</h1>
+       </div>
+        <div class="col-3 profile-header-middle">
             {% if user.name == "Steven Borst" %}
-            <a href="{% url 'profile_edit' %}">edit</a>
+            <a href="{% url 'profile_edit' %}">edit profile</a>
             {% endif %}
         </div>
-        <div class="col-3"><!-- Couldn't get offset to work, temp fix--></div>
         <div class="col-3 profile-picture-container">
             <img class="rounded profile-picture profile-picture-small" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
         </div>
