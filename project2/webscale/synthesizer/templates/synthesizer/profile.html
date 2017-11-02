@@ -37,7 +37,7 @@
             <tbody>
                 {% for program in programs %}
                 <tr>
-                    <td>{{program.name}}</td>
+                    <td><a href="{% url 'program' program.id.hex %}">{{program.name}}<a/></td>
                     <td>{{program.description}}</td>
                 </tr>
                 {% endfor %}
