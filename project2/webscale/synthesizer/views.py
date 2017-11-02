@@ -84,10 +84,11 @@ def feed(request):
     """
     View function for the feed page.
     """
+    snippits = Snippit.objects.all().order_by('-id')[:5]
     return render(
         request,
         'synthesizer/feed.html',
-        context={'page_title': 'Activity Feed'},
+        context={'page_title': 'Activity Feed', 'snippits': snippits},
     )
 def profile(request, profile_id="0"):
     """

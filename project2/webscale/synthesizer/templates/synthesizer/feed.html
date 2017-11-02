@@ -11,102 +11,33 @@
 {% block content %}
 <div class="container">
     <h1 class="page-title">Activity Feed</h1>
-    <h5 class="page-subtitle">A live view of what snippets other users are creating</h5>
+    <h5 class="page-subtitle">The five most recent snippits that have been created</h5>
     <div id="main" class="row">
         <div class="col">
-
+            {% for snippit in snippits %}
             <!-- Card start -->
             <div class="mx-auto w-50 p-4 bg-dark feed-card">
                 <div class="row">
                     <div class="col-9 card-heading">
                         <div class="row">
-                            <div><b>Rachit Nigam</b></div>
+                            <div><b>{{snippit.user_id.name}}</b></div>
                         </div>
                         <div class="row">
-                            <div>Created: <em>Logical Constants</em></div>
+                            <div>Created: <em>{{snippit.name}}</em></div>
                         </div>
                     </div>
                     <div class="col-2 float-right">
-                        <button class="btn btn-success btn-small">Load</button>
+                        <a class="btn btn-success btn-small" href="{% url 'program' snippit.id.hex %}">Load</a>
                     </div>
                 </div>
                 <div class="row card-description">
                     <div class="col-12">
-                        <span><i>A small snippet based on a problem in my CS513 hw. Synthesizer was able to fill in some constants for me!</i></span>
+                        <span><i>{{snippit.description}}</i></span>
                     </div>
                 </div>
             </div>
             <!-- Card end -->
-
-            <!-- Card start -->
-            <div class="mx-auto w-50 p-4 bg-dark feed-card">
-                <div class="row">
-                    <div class="col-9 card-heading ">
-                        <div class="row">
-                            <div><b>John Geenty</b></div>
-                        </div>
-                        <div class="row">
-                            <div>Created: <em>Capture The Flag</em></div>
-                        </div>
-                    </div>
-                    <div class="col-2 float-right">
-                        <button class="btn btn-success btn-small">Load</button>
-                    </div>
-                </div>
-                <div class="row card-description">
-                    <div class="col-12">
-                        <span><i>Needed to grab a secret key from a bit field, but couldn't quite nail it. Thanks Synthesizer!</i></span>
-                    </div>
-                </div>
-            </div>
-            <!-- Card end -->
-
-            <!-- Card start -->
-            <div class="mx-auto w-50 p-4 bg-dark feed-card">
-                <div class="row">
-                    <div class="col-9 card-heading ">
-                        <div class="row">
-                            <div><b>Max Berezin</b></div>
-                        </div>
-                        <div class="row">
-                            <div>Created: <em>Fill In The Blanks</em></div>
-                        </div>
-                    </div>
-                    <div class="col-2 float-right">
-                        <button class="btn btn-success btn-small">Load</button>
-                    </div>
-                </div>
-                <div class="row card-description">
-                    <div class="col-12">
-                        <span><i>Was messing around with Synthesizer to see how it worked. I'm convinced it's magic.</i></span>
-                    </div>
-                </div>
-            </div>
-            <!-- Card end -->
-
-            <!-- Card start -->
-            <div class="mx-auto w-50 p-4 bg-dark feed-card">
-                <div class="row">
-                    <div class="col-9 card-heading">
-                        <div class="row">
-                            <div><b>Steven Borst</b></div>
-                        </div>
-                        <div class="row">
-                            <div>Created: <em>Complicated Test</em></div>
-                        </div>
-                    </div>
-                    <div class="col-2 float-right">
-                        <button class="btn btn-success btn-small">Load</button>
-                    </div>
-                </div>
-                <div class="row card-description">
-                    <div class="col-12">
-                        <span><i>I thought this was nonsense but I started using it and now I'm the CTO of Google.</i></span>
-                    </div>
-                </div>
-            </div>
-            <!-- Card end -->
-
+            {% endfor %}
         </div>
     </div>
     <footer class="footer">
