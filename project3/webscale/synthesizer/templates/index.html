@@ -1,0 +1,268 @@
+{% extends "base_page.html" %}
+
+{% block extra_assets %}
+{% load static %}
+<script src="{% static 'js/ace-min-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Content start-->
+<div id="main" class="container-fluid">
+    <div class="row row-fill">
+        <!-- Sidebar start -->
+        <div class="col-1">
+            <div class="btn-group-vertical action-buttons">
+                <button type="button" class="btn btn-primary item">Synthesize!</button>
+                <a id="discuss-button" href="{% url 'discussion' snippet_id %}" class="btn btn-warning item" style="display: none;">Discuss</a>
+                <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
+                <button type="button" data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
+                <button type="button" data-toggle="modal" href="#search-modal" class="btn btn-info item">Search</button>
+            </div>
+        </div>
+        <!-- Sidebar end -->
+
+        <!-- Synthesizer start  -->
+        <div class="col-11 no-padding-right">
+            <div class="row row-fill">
+
+                <!-- Editor Start  -->
+                <div class="col-6 no-padding-right">
+
+                    <span class="section-title">Program Specification{{ snippet_name }}</span>
+                    <!-- <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea> -->
+                    <div id="spec_editor" class="editor">{{  snippet_spec }}</div>
+
+                </div>
+                <!-- Editor End  -->
+                <!-- Outputs start -->
+                <div class="col-6 no-padding">
+                    <span class="section-title">Output</span>
+                    <div id="synth_results" class="results">{{ snippet_result }}</div>
+                    <span class="section-title">Program Constants</span>
+                    <!-- <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea> -->
+                    <div id="snippet_editor" class="editor">{{  snippet_text }}</div>
+                </div>
+                <!-- Outputs end -->
+            </div>
+        </div>
+        <!-- Synthesizer end-->
+    </div>
+</div>
+<!-- Content end-->
+
+
+<!-- Save modal start -->
+<div class="modal" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="save-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="save-modal-label">Save Program</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal content start -->
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label for="name-input" class="col-3 col-form-label">Name</label>
+                    <div class="col-9">
+                        <input class="form-control" type="text" placeholder="Type the program's name here..." id="name-input">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description-input" class="col-3 col-form-label">Description</label>
+                    <div class="col-9">
+                        <input class="form-control" type="text" placeholder="Type a description here..." id="description-input">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-3">Make Public</label>
+                    <div class="col-9">
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal content end -->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Export to Google Drive</a>
+                        <a class="dropdown-item" href="#">Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Save modal end -->
+
+<!-- Load modal start -->
+<div class="modal" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="load-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="load-modal-label">Load Program</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal content start -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="buttons-right">
+                            <div class="btn-group" role="group" aria-label="Import actions">
+                                <button type="button" class="btn btn-outline-secondary btn-sm">Import from file</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm">Import from Google Drive</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-top">
+                        <h4>Saved Programs:</h4>
+                        <table class="table table-striped program-table">
+                            <thead>
+                                <tr>
+                                    <th>Program Name</th>
+                                    <th>Description</th>
+                                    <th>Load</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for snip in all_user_snippets %}
+                                <tr>
+                                    <td>{{snip.1}}</td>
+                                    <td>{{snip.2}}</td>
+                                    <td><a href="{% url 'program' snip.0 %}" class="btn btn-primary btn-sm" aria-label="Close">Load</a></td>
+                                <tr>
+                                {% endfor %}
+                                    <!-- <tr> -->
+                                    <!-- <td>CS230 HW Assignment 4</td> -->
+                                    <!-- <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help -->
+                                    <!-- me out.</td> -->
+                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
+                                    <!-- </tr> -->
+                                    <!-- <tr> -->
+                                    <!-- <td>Spire Automator</td> -->
+                                    <!-- <td>This synthesizer is just what I needed for my personal project. I know I'll get in to CS326 now!</td> -->
+                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
+                                    <!-- </tr> -->
+                                    <!-- <tr> -->
+                                    <!-- <td>Twitter GeoVisualizer</td> -->
+                                    <!-- <td>I've always wanted to know where all these pesky tweeters are and with Synthesizer's help I can finally see.</td> -->
+                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
+                                    <!-- </tr> -->
+                                    <!-- <tr> -->
+                                    <!-- <td>Side Project</td> -->
+                                    <!-- <td>New <del>death-ray</del> peace-ray I'm working on and I'd rather not worry about the constants. THANKS Synthesizer!</td> -->
+                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
+                                    <!-- </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal content end -->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Load modal end -->
+
+<!-- Search modal start -->
+<div class="modal" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="search-modal-label" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="search-modal-label">Search Programs</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal content start -->
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <form role="form">
+                        <div class="row">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control" placeholder="This would call an endpoint and populate the results below."/>
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="row margin-top">
+                        <h4>Search Results:</h4>
+                        <table class="table table-striped program-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Program Name</th>
+                                    <th>Description</th>
+                                    <th>Load</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Modal content end -->
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search modal end -->
+
+<script type="text/javascript">
+ const snippetID = "{{ snippet_id }}";
+ const element = document.getElementById('discuss-button');
+ if (snippetID != '') {
+     element.style.display = "";
+ }
+</script>
+<script>
+ const spec_editor = ace.edit("spec_editor");
+ const snippet_editor = ace.edit("snippet_editor");
+ const synth_results = ace.edit("synth_results");
+
+ spec_editor.setTheme("ace/theme/monokai");
+ spec_editor.getSession().setMode("ace/mode/python");
+ spec_editor.session.setUseWorker(false)
+ spec_editor.setShowPrintMargin(false);
+
+ snippet_editor.setTheme("ace/theme/monokai");
+ snippet_editor.getSession().setMode("ace/mode/python");
+ snippet_editor.session.setUseWorker(false)
+ snippet_editor.setShowPrintMargin(false);
+
+ synth_results.setTheme("ace/theme/monokai");
+ synth_results.getSession().setMode("ace/mode/python");
+ synth_results.session.setUseWorker(false)
+ synth_results.setShowPrintMargin(false);
+ synth_results.renderer.setShowGutter(false);
+ synth_results.setOptions({
+     readOnly: true
+ });
+</script>
+{% endblock %}

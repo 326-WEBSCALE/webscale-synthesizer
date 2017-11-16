@@ -1,0 +1,84 @@
+{% extends "base_page.html" %}
+
+{% block title %}<title>{{ page_title }}</title>{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/webscale-profile.css' %}">
+{% endblock %}
+
+<!-- Content start-->
+{% block content %}
+<div id="main" class="container">
+    <h1>Edit Profile</h1>
+    <hr class="heading-hr">
+    <div class="row">
+        <div class="col-6">
+            <form>
+                <div class="form-group">
+                    <label for="name-input">Name</label>
+                    <input type="name" class="form-control" id="name-input" placeholder="Enter your name..." value={{ user.name }}>
+                </div>
+                <div class="form-group">
+                    <label for="email-input">Email address</label>
+                    <input type="email" class="form-control" id="email-input" placeholder="Enter your email..." value={{ user.email }}>
+                </div>
+                <div class="form-group">
+                    <label for="password-input">Password</label>
+                    <input type="password" class="form-control" id="password-input" placeholder="Enter a password..." value="******************">
+                </div>
+                <div class="form-group">
+                    <label for="drive-auth">Google Drive</label>
+                    <br>
+                    <span id="drive-auth" class="checkmark" aria-hidden="true">&#10004;</span><span>Authorized for your Google Drive</span>
+                    <button type="button" class="btn btn-danger btn-sm btn-leftpad">Revoke </button>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+        <div class="col-6">
+            <div class="float-right">
+                <img class="rounded profile-picture" alt="Profile Picture" src="{% static 'images/deer.jpg' %}">
+                <br>
+                <div class="upload-button">
+                    <button type="button" class="btn btn-sm">Upload New Photo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="heading-hr">
+    <br>
+
+    <div class="row">
+        <h4>Saved Programs:</h4>
+        <table class="table table-striped program-table">
+            <thead>
+                <tr>
+                    <th>Program Name</th>
+                    <th>Description</th>
+                    <th>Public</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for program in programs %}
+                <tr>
+                    <td>{{program.name}}</td>
+                    <td>{{program.description}}</td>
+                    <td class="text-center"><input type="checkbox" class="form-check-input" {% if program.is_public %} checked {% endif %}"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" aria-label="Delete">Delete</button></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </div>
+
+    <footer class="footer">
+        <hr class="footer-hr">
+        <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
+        <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
+    </footer>
+
+</div>
+{% endblock %}
+<!-- Content end-->
