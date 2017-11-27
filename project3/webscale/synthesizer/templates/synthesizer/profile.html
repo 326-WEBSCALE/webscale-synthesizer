@@ -12,10 +12,10 @@
 <div id="main" class="container">
     <div class="row">
         <div class="col-6">
-            <h1>{{ user.name }}</h1>
+            <h1>{{ displayed_user.name }}</h1>
        </div>
         <div class="col-3 profile-header-middle">
-            {% if user.name == "Steven Borst" %}
+            {% if display_edit_link %}
             <a href="{% url 'profile_edit' %}">edit profile</a>
             {% endif %}
         </div>

@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from .models import *
@@ -46,6 +47,7 @@ def about(request):
         'synthesizer/about.html',
         context={'page_title': 'About Us'},
     )
+
 def discussion(request, snippetID):
     """
     View function for the discussion page.
@@ -71,6 +73,7 @@ def discussion(request, snippetID):
         'synthesizer/discussion.html',
         page_context,
     )
+
 def faq(request):
     """
     View function for the faq page.
@@ -80,6 +83,7 @@ def faq(request):
         'synthesizer/faq.html',
         context={'page_title': 'FAQ'},
     )
+
 def feed(request):
     """
     View function for the feed page.
@@ -90,22 +94,37 @@ def feed(request):
         'synthesizer/feed.html',
         context={'page_title': 'Activity Feed', 'snippits': snippits},
     )
-def profile(request, profile_id="0"):
+
+def profile(request, profile_id=""):
     """
     View function for a profile page.
     If the given profile id argument is not given, the profile of
     the current user will be shown
     """
-    if profile_id == "0":
-        profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
-    user = get_object_or_404(User, id=profile_id)
-    programs = Snippit.objects.filter(user_id=user.id)
+
+    logged_in_user = None
+    if request.user.is_authenticated:
+        logged_in_user = request.user
+
+    display_edit_link = False
+    if profile_id == "" and logged_in_user:
+        profile_id = logged_in_user.get_username()
+        profile_id = "d097b337df594c35a01d997bfbeaad42"
+        display_edit_link = True
+    elif profile_id == "" and not logged_in_user:
+        return handler404(request)
+
+    displayed_user = get_object_or_404(User, id=profile_id)
+    programs = Snippit.objects.filter(user_id=profile_id)
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': user.name, 'user': user, 'programs': programs},
+        context={'page_title': displayed_user.name,
+                 'display_edit_link': display_edit_link,
+                 'programs': programs},
     )
 
+@login_required
 def profile_edit(request):
     """
     Allows a user to edit their profile
