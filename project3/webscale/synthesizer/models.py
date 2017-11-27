@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 import uuid
+from django.contrib.auth.models import User
 
 # Create your models here.
 class ApplicationTable(models.Model):
@@ -31,7 +32,7 @@ class Snippit(models.Model):
     Model for representing a Snippit
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this Snippit")
-    user_id = models.ForeignKey('OldUser', on_delete=models.SET_NULL, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField('Name', max_length=200, help_text="Enter name")
     description = models.TextField(max_length=1000, help_text="Enter the snippit description")
     program_text = models.TextField(max_length=99999, help_text="Enter the program holes")
@@ -84,7 +85,7 @@ class GoogleAuth(models.Model):
     Model for Google Authentication
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this Google Authentication")
-    user_id = models.ForeignKey('OldUser', on_delete=models.SET_NULL, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     is_authenticated = models.BooleanField(default=True, help_text="Boolean for if user has authorized access to Drive.")
     access_token = models.CharField(max_length=200, help_text="Enter access_token")
     refresh_token = models.CharField(max_length=200, help_text="Enter refresh_token")
@@ -100,7 +101,7 @@ class Comment(models.Model):
     Model for comments
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this comment")
-    user_id = models.ForeignKey('OldUser', on_delete=models.SET_NULL, null=True)
+    user_id = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     snippit_id = models.ForeignKey('Snippit', on_delete=models.SET_NULL, null=True)
     text = models.TextField(max_length=99999, help_text="Enter the comment text")
     date_posted = models.DateField(null=True, blank=True)
