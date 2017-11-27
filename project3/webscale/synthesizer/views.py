@@ -12,7 +12,7 @@ def index(request, snippetID=None):
 
     # Normally the user would be determined by the session, but here we will
     # use Steve's account as an example
-    example_user = User.objects.get(name='Steven Borst')
+    example_user = OldUser.objects.get(name='Steven Borst')
     all_user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
                             Snippit.objects.filter(user_id=example_user.id))
     page_context['all_user_snippets'] = all_user_snippets
@@ -114,7 +114,7 @@ def profile(request, profile_id=""):
     elif profile_id == "" and not logged_in_user:
         return handler404(request)
 
-    displayed_user = get_object_or_404(User, id=profile_id)
+    displayed_user = get_object_or_404(OldUser, id=profile_id)
     programs = Snippit.objects.filter(user_id=profile_id)
     return render(
         request,
@@ -129,7 +129,7 @@ def profile_edit(request):
     """
     Allows a user to edit their profile
     """
-    user = User.objects.get(name='Steven Borst')
+    user = OldUser.objects.get(name='Steven Borst')
     programs = Snippit.objects.filter(user_id=user.id)
     profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
     return render(
