@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 from .models import *
+from django.contrib.auth.models import User
 
+# Create your views here.
 def index(request, snippetID=None):
     """
     View function for home page of site.
@@ -12,9 +13,9 @@ def index(request, snippetID=None):
 
     # Normally the user would be determined by the session, but here we will
     # use Steve's account as an example
-    example_user = OldUser.objects.get(name='Steven Borst')
+    example_user = User.objects.get(username='sborst')
     all_user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
-                            Snippit.objects.filter(user_id=example_user.id))
+                            Snippit.objects.filter(user_id=example_user))
     page_context['all_user_snippets'] = all_user_snippets
 
     if snippetID is None:
@@ -102,24 +103,23 @@ def profile(request, profile_id=""):
     the current user will be shown
     """
 
-    logged_in_user = None
+    display_edit_link = False
+
     if request.user.is_authenticated:
         logged_in_user = request.user
+        # Overwrite profile_id if empty
+        if profile_id == "" or profile_id == logged_in_user.get_username():
+            profile_id = logged_in_user.get_username()
+            display_edit_link = True
+        else:
+            return handler404(request)
 
-    display_edit_link = False
-    if profile_id == "" and logged_in_user:
-        profile_id = logged_in_user.get_username()
-        profile_id = "d097b337df594c35a01d997bfbeaad42"
-        display_edit_link = True
-    elif profile_id == "" and not logged_in_user:
-        return handler404(request)
-
-    displayed_user = get_object_or_404(OldUser, id=profile_id)
-    programs = Snippit.objects.filter(user_id=profile_id)
+    displayed_user = get_object_or_404(User, username=profile_id)
+    programs = Snippit.objects.filter(user_id=displayed_user)
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': displayed_user.name,
+        context={'page_title': displayed_user.get_full_name(),
                  'display_edit_link': display_edit_link,
                  'programs': programs},
     )
@@ -129,9 +129,9 @@ def profile_edit(request):
     """
     Allows a user to edit their profile
     """
-    user = OldUser.objects.get(name='Steven Borst')
+    user = User.objects.get(username='sborst')
     programs = Snippit.objects.filter(user_id=user.id)
-    profile_id = "d097b337df594c35a01d997bfbeaad42"  # default to steven's profile for now
+    #TODO: This is overriding the session user var. Fix.
     return render(
         request,
         'synthesizer/profile_edit.html',
