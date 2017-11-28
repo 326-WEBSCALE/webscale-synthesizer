@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 
 from .models import *
@@ -53,18 +54,35 @@ def about(request):
         context={'page_title': 'About Us'},
     )
 
+class CommentForm(forms.Form):
+    text = forms.CharField()
+
 def discussion(request, snippetID):
     """
     View function for the discussion page.
     """
-    page_context = {'page_title': 'Discussion'}
     snippet = Snippit.objects.get(pk=snippetID)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = Comment.objects.create()
+            post.user_id = request.user
+            post.date_posted = datetime.today()
+            post.snippit_id = snippet
+            post.text = form.cleaned_data['text']
+            post.save()
+            return HttpResponseRedirect('/discussion/'+snippetID)
+        else:
+            return handler404(request)
+
+    page_context = {'page_title': 'Discussion'}
     snippet_comments = list(
-        map(lambda comment: (comment.user_id.name,
+        map(lambda comment: (comment.user_id.get_full_name(),
                              comment.text, comment.date_posted),
                             Comment.objects.filter(snippit_id=snippetID))
         )
     print(list(snippet_comments))
+
     page_context['snippet_id'] = snippet.id.hex
     page_context['snippet_name'] = snippet.name
     page_context['snippet_user_id'] = snippet.user_id

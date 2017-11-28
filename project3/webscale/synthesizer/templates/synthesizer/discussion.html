@@ -75,6 +75,24 @@
                 <!-- </div> -->
             </div>
         </div>
+        {% if request.user.is_authenticated %}
+        <div class="row post-comment">
+            <div class="post-comment col-2"></div>
+            <div class="post-comment col-8">
+                <div class="card post-comment">
+                    <div class="card-body">
+                        <h4 class="card-title">Write a comment</h4>
+                        <form class="card-text" action="" method="post">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" id="text" name="text" placeholder="Write your comment here">
+                            <button type="submit" class="card-actions btn btn-sm btn-primary">Submit</button>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
     <footer class="footer">
