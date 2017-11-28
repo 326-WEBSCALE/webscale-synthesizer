@@ -120,6 +120,8 @@ def profile(request, profile_id=""):
         request,
         'synthesizer/profile.html',
         context={'page_title': displayed_user.get_full_name(),
+                 'user': displayed_user,
+                 'user_full_name': displayed_user.get_full_name(),
                  'display_edit_link': display_edit_link,
                  'programs': programs},
     )
