@@ -40,7 +40,7 @@
                 <div class="col-6 no-padding">
                     <span class="section-title">Output</span>
                     <div id="synth_results" class="results">{{ snippet_result }}</div>
-                    <span class="section-title">Program Constants</span>
+                    <span class="section-title">Program Sketch</span>
                     <!-- <textarea class="form-control editor" placeholder="Type your program here...">{{ snippet_text }}</textarea> -->
                     <div id="snippet_editor" class="editor">{{  snippet_text }}</div>
                 </div>
@@ -66,16 +66,25 @@
 
             <!-- Modal content start -->
             <div class="modal-body">
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <!-- <input class="form-control" type="text" placeholder="Type the program's name here..." name="name" id="id_name">
+                    <input class="form-control" type="text" placeholder="Type a description here..." name="desc" id="id_desc">
+
+                    <label class="col-3">Make Public</label>
+                    <input class="form-check-input" type="checkbox" name="is_public" id="id_is_public"> -->
+
                 <div class="form-group row">
                     <label for="name-input" class="col-3 col-form-label">Name</label>
                     <div class="col-9">
-                        <input class="form-control" type="text" placeholder="Type the program's name here..." id="name-input">
+                        <input class="form-control" type="text" placeholder="Type the program's name here..." name="name" id="id_name">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="description-input" class="col-3 col-form-label">Description</label>
                     <div class="col-9">
-                        <input class="form-control" type="text" placeholder="Type a description here..." id="description-input">
+                        <input class="form-control" type="text" placeholder="Type a description here..." name="desc" id="id_desc">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -83,17 +92,19 @@
                     <div class="col-9">
                         <div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" name = "is_public" id="id_is_public">
                             </label>
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-primary" id="submit">Save changes</button>
+                </form>
             </div>
             <!-- Modal content end -->
 
-            <div class="modal-footer">
+            <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+                <button type="button" class="btn btn-primary">Save changes</button>
                 <div class="btn-group">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                     <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
@@ -102,7 +113,7 @@
                         <a class="dropdown-item" href="#">Download</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
