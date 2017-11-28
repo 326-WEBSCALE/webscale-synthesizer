@@ -185,12 +185,11 @@ def profile_edit(request):
             return handler404(request)
     else:
         programs = Snippit.objects.filter(user_id=user.id)
-        #TODO: This is overriding the session user var. Fix.
         return render(
             request,
             'synthesizer/profile_edit.html',
             context={'page_title': 'Edit Profile', 'programs': programs, 
-              'user': user},
+            },
         )
 
 def handler404(request):
