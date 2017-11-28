@@ -113,7 +113,6 @@ def profile(request, profile_id=""):
             display_edit_link = True
         else:
             return handler404(request)
-
     displayed_user = get_object_or_404(User, username=profile_id)
     programs = Snippit.objects.filter(user_id=displayed_user)
     return render(

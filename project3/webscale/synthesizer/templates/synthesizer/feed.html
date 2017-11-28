@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-9 card-heading">
                         <div class="row">
-                            <div><b><a href="{% url 'profile' snippit.user_id.id.hex %}">{{snippit.user_id.name}}</a></b></div>
+                            <div><b><a href="{% url 'profile' snippit.user_id %}">{{snippit.user_id.first_name}} {{snippit.user_id.last_name}}</a></b></div>
                         </div>
                         <div class="row">
                             <div>Created: <em>{{snippit.name}}</em></div>
