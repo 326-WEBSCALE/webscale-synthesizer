@@ -67,6 +67,7 @@ def index(request, snippetID=None):
 
     page_context['snippet_id'] = snippet.id.hex
     page_context['snippet_name'] = ": {0}".format(snippet.name)
+    page_context['snippet_actual_name'] = snippet.name
     page_context['snippet_user_id'] = snippet.user_id
     page_context['snippet_description'] = snippet.description
     page_context['snippet_text'] = snippet.program_text
