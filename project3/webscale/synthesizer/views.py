@@ -18,10 +18,18 @@ def index(request, snippetID=None):
 
     # Normally the user would be determined by the session, but here we will
     # use Steve's account as an example
-    example_user = User.objects.get(username='sborst')
-    all_user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
-                            Snippit.objects.filter(user_id=example_user))
-    page_context['all_user_snippets'] = all_user_snippets
+
+    profile_user = None
+    if request.user.is_authenticated:
+        profile_user = request.user
+        display_edit_link = True
+    else:
+        return handler404(request)
+
+    user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
+                            Snippit.objects.filter(user_id=profile_user))
+
+    page_context['user_snippets'] = user_snippets
 
     if snippetID is None:
         return render(request, 'index.html', page_context)
