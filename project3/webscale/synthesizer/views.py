@@ -96,31 +96,32 @@ def feed(request):
         context={'page_title': 'Activity Feed', 'snippits': snippits},
     )
 
-def profile(request, profile_id=""):
+def profile(request, profile_id=None):
     """
     View function for a profile page.
     If the given profile id argument is not given, the profile of
     the current user will be shown
     """
-
+    # If at /profile/, show logged in user or 404
     display_edit_link = False
-
-    if request.user.is_authenticated:
-        logged_in_user = request.user
-        # Overwrite profile_id if empty
-        if profile_id == "" or profile_id == logged_in_user.get_username():
-            profile_id = logged_in_user.get_username()
-            display_edit_link = True
+    if profile_id is None:
+        if request.user.is_authenticated:
+            profile_user = request.user
         else:
             return handler404(request)
-    displayed_user = get_object_or_404(User, username=profile_id)
-    programs = Snippit.objects.filter(user_id=displayed_user)
+    else:
+        profile_user = get_object_or_404(User, username=profile_id)
+        if request.user.is_authenticated and request.user.username == profile_user.username:
+            display_edit_link = True
+
+    programs = Snippit.objects.filter(user_id=profile_user)
+
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': displayed_user.get_full_name(),
-                 'user': displayed_user,
-                 'user_full_name': displayed_user.get_full_name(),
+        context={'page_title': profile_user.get_full_name(),
+                 'user': profile_user,
+                 'user_full_name': profile_user.get_full_name(),
                  'display_edit_link': display_edit_link,
                  'programs': programs},
     )
