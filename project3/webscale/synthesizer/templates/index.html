@@ -14,8 +14,10 @@
             <div class="btn-group-vertical action-buttons">
                 <button type="button" class="btn btn-primary item">Synthesize!</button>
                 <a id="discuss-button" href="{% url 'discussion' snippet_id %}" class="btn btn-warning item" style="display: none;">Discuss</a>
+                {% if request.user.is_authenticated %}
                 <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
                 <button type="button" data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
+                {% endif %}
                 <button type="button" data-toggle="modal" href="#search-modal" class="btn btn-info item">Search</button>
             </div>
         </div>
