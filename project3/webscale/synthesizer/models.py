@@ -12,21 +12,6 @@ class ApplicationTable(models.Model):
     contact_email = models.EmailField('Contact Email', max_length=200, help_text="Enter your email")
     copyright_date = models.CharField('Copyright Date', max_length=200, help_text="Enter copyright date")
 
-class OldUser(models.Model):
-    """
-    Model representing a user.
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular user")
-    name = models.CharField('Name', max_length=200, help_text="Enter your name")
-    email = models.EmailField('email', max_length=200, help_text= "Enter you email")
-    hashed_password = models.CharField(max_length=200)
-
-    def __str__(self):
-        """
-        String for representing the Model object.
-        """
-        return self.name
-
 class Snippit(models.Model):
     """
     Model for representing a Snippit
