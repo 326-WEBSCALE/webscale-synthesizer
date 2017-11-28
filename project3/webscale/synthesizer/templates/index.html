@@ -145,28 +145,11 @@
                                     <td>{{snip.2}}</td>
                                     <td><a href="{% url 'program' snip.0 %}" class="btn btn-primary btn-sm" aria-label="Close">Load</a></td>
                                 <tr>
+                                {% empty %}
+                                <tr>
+                                    <td> No snippets to display. Login to get your snippets.</td>
+                                </tr>
                                 {% endfor %}
-                                    <!-- <tr> -->
-                                    <!-- <td>CS230 HW Assignment 4</td> -->
-                                    <!-- <td>Fourth hw asignment for CS230. Couldn't figure out the bit mask value, so I am using Synthesizer to help -->
-                                    <!-- me out.</td> -->
-                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
-                                    <!-- </tr> -->
-                                    <!-- <tr> -->
-                                    <!-- <td>Spire Automator</td> -->
-                                    <!-- <td>This synthesizer is just what I needed for my personal project. I know I'll get in to CS326 now!</td> -->
-                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
-                                    <!-- </tr> -->
-                                    <!-- <tr> -->
-                                    <!-- <td>Twitter GeoVisualizer</td> -->
-                                    <!-- <td>I've always wanted to know where all these pesky tweeters are and with Synthesizer's help I can finally see.</td> -->
-                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
-                                    <!-- </tr> -->
-                                    <!-- <tr> -->
-                                    <!-- <td>Side Project</td> -->
-                                    <!-- <td>New <del>death-ray</del> peace-ray I'm working on and I'd rather not worry about the constants. THANKS Synthesizer!</td> -->
-                                    <!-- <td><button type="button" class="btn btn-primary btn-sm" data-dismiss="modal" aria-label="Close">Load</button></td> -->
-                                    <!-- </tr> -->
                             </tbody>
                         </table>
                     </div>

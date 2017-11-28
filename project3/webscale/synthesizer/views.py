@@ -22,14 +22,11 @@ def index(request, snippetID=None):
     profile_user = None
     if request.user.is_authenticated:
         profile_user = request.user
-        display_edit_link = True
-    else:
-        return handler404(request)
 
-    user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
-                            Snippit.objects.filter(user_id=profile_user))
+        user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
+                                Snippit.objects.filter(user_id=profile_user))
 
-    page_context['user_snippets'] = user_snippets
+        page_context['user_snippets'] = user_snippets
 
     if snippetID is None:
         return render(request, 'index.html', page_context)
