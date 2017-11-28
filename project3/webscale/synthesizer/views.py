@@ -9,15 +9,17 @@ from django.contrib.auth.models import User
 
 from django import forms
 
-# Create your views here.
+class SnippetSaveForm(forms.Form):
+    name = forms.CharField()
+    desc = forms.CharField()
+    is_public = forms.BooleanField()
+
 def index(request, snippetID=None):
     """
     View function for home page of site.
     """
+    print("this is the request" + str(request))
     page_context = {'page_title': 'W E B S C A L E'}
-
-    # Normally the user would be determined by the session, but here we will
-    # use Steve's account as an example
 
     profile_user = None
     if request.user.is_authenticated:
@@ -31,8 +33,27 @@ def index(request, snippetID=None):
     if snippetID is None:
         return render(request, 'index.html', page_context)
 
+    # Logic for saving a snippet
+    if request.user.is_authenticated and request.method == 'POST':
+        form = SnippetSaveForm(request.POST)
+        if snippetID == None:
+            return handler404(request)
+
+        if form.is_valid():
+            snippet = Snippit.objects.create() 
+            snippet.user_id = request.user
+            snippet.snippet.name = form.cleaned_data['name']
+            snippet.description = form.cleaned_data['desc']
+            snippet.is_public = form.cleaned_data['is_public']
+
+            snippet.program_text = 'nothing'
+            snippet.program_spec = 'nothing'
+            snippet.synthesizer_result = 'nothing'
+            snippet.save()
 
     snippet = Snippit.objects.get(pk=snippetID)
+
+    form = SnippetSaveForm()
 
     page_context['snippet_id'] = snippet.id.hex
     page_context['snippet_name'] = ": {0}".format(snippet.name)
@@ -42,6 +63,7 @@ def index(request, snippetID=None):
     page_context['snippet_spec'] = snippet.program_spec
     page_context['snippet_result'] = snippet.synthesizer_result
     page_context['snippet_is_public'] = snippet.is_public
+    page_context['form'] = form
 
     return render(
         request,
