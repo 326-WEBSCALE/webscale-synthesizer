@@ -10,6 +10,11 @@ from django.contrib.auth.models import User
 from django import forms
 
 class SnippetSaveForm(forms.Form):
+    # Hidden fields on the form
+    program = forms.CharField()
+    spec = forms.CharField()
+    output = forms.CharField()
+
     name = forms.CharField()
     desc = forms.CharField()
     is_public = forms.BooleanField(required=False)
@@ -35,6 +40,7 @@ def index(request, snippetID=None):
 
         print(str(request.POST))
         print(str(form.is_valid()))
+        print(form)
 
         if form.is_valid():
             snippet = Snippit.objects.create() 
@@ -43,9 +49,9 @@ def index(request, snippetID=None):
             snippet.description = form.cleaned_data['desc']
             snippet.is_public = form.cleaned_data['is_public']
 
-            snippet.program_text = 'nothing'
-            snippet.program_spec = 'nothing'
-            snippet.synthesizer_result = 'nothing'
+            snippet.program_text = form.cleaned_data['program']
+            snippet.program_spec = form.cleaned_data['desc']
+            snippet.synthesizer_result = form.cleaned_data['output']
             snippet.save()
 
             user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),

@@ -66,7 +66,7 @@
 
             <!-- Modal content start -->
             <div class="modal-body">
-                <form method="POST" action="">
+                <form method="POST" action="" id="save-form">
                     {% csrf_token %}
 
                     <!-- <input class="form-control" type="text" placeholder="Type the program's name here..." name="name" id="id_name">
@@ -79,9 +79,9 @@
                     <label for="name-input" class="col-3 col-form-label">Name</label>
                     <div class="col-9">
                         {% if snippet_id %}
-                        <input class="form-control" type="text" value="{{ snippet_actual_name }}" name="desc" id="id_desc">
+                        <input class="form-control" type="text" value="{{ snippet_actual_name }}" name="name" id="id_name">
                         {% else %}
-                        <input class="form-control" type="text" placeholder="Name" name="desc" id="id_desc">
+                        <input class="form-control" type="text" placeholder="Name" name="name" id="id_name">
                         {% endif %}
                     </div>
                 </div>
@@ -105,7 +105,26 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="submit">Save changes</button>
+                <script type="text/javascript">
+                    function hiddenField(name, fromId) {
+                        let program = document.createElement("input")
+                        program.type = "text"
+                        program.value = document.getElementById(fromId).innerText || "nothing"
+                        program.name = name
+                        program.id = name
+                        return program
+                    }
+
+                    function onSaveSubmit() {
+                        let form = document.getElementById("save-form")
+                        let program = document.createElement("input")
+                        form.appendChild(hiddenField("program", "spec_editor"))
+                        form.appendChild(hiddenField("spec", "snippet_editor"))
+                        form.appendChild(hiddenField("output", "synth_results"))
+                        // document.getElementById("save-submit").submit()
+                    }
+                </script>
+                <button type="submit" onclick="onSaveSubmit()" class="btn btn-primary" id="save-submit">Save changes</button>
                 </form>
             </div>
             <!-- Modal content end -->
