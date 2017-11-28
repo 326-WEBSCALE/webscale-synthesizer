@@ -1,8 +1,12 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+
 
 from .models import *
 from django.contrib.auth.models import User
+
+from django import forms
 
 # Create your views here.
 def index(request, snippetID=None):
@@ -127,16 +131,33 @@ def profile(request, profile_id=None):
                  'programs': programs},
     )
 
+class ProfileEditForm(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.CharField()
+    password = forms.CharField(required=False)
+
 @login_required
 def profile_edit(request):
     """
     Allows a user to edit their profile
     """
+    user = request.user
+
     if request.method == 'POST':
-        print("Woah!")
-        return handler404(request)
+        form = ProfileEditForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            if form.cleaned_data['password'] is not "":
+                user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            return HttpResponseRedirect('/profile/edit')
+        else:
+            return handler404(request)
     else:
-        user = User.objects.get(username='sborst')
         programs = Snippit.objects.filter(user_id=user.id)
         #TODO: This is overriding the session user var. Fix.
         return render(
