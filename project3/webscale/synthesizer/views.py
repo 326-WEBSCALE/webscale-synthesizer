@@ -132,15 +132,19 @@ def profile_edit(request):
     """
     Allows a user to edit their profile
     """
-    user = User.objects.get(username='sborst')
-    programs = Snippit.objects.filter(user_id=user.id)
-    #TODO: This is overriding the session user var. Fix.
-    return render(
-        request,
-        'synthesizer/profile_edit.html',
-        context={'page_title': 'Edit Profile', 'programs': programs, 
-          'user': user},
-    )
+    if request.method == 'POST':
+        print("Woah!")
+        return handler404(request)
+    else:
+        user = User.objects.get(username='sborst')
+        programs = Snippit.objects.filter(user_id=user.id)
+        #TODO: This is overriding the session user var. Fix.
+        return render(
+            request,
+            'synthesizer/profile_edit.html',
+            context={'page_title': 'Edit Profile', 'programs': programs, 
+              'user': user},
+        )
 
 def handler404(request):
     """
