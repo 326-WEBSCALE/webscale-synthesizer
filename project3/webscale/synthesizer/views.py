@@ -107,6 +107,7 @@ def profile(request, profile_id=None):
     if profile_id is None:
         if request.user.is_authenticated:
             profile_user = request.user
+            display_edit_link = True
         else:
             return handler404(request)
     else:
