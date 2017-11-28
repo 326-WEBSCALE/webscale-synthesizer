@@ -12,13 +12,12 @@ from django import forms
 class SnippetSaveForm(forms.Form):
     name = forms.CharField()
     desc = forms.CharField()
-    is_public = forms.BooleanField()
+    is_public = forms.BooleanField(required=False)
 
 def index(request, snippetID=None):
     """
     View function for home page of site.
     """
-    print("this is the request" + str(request))
     page_context = {'page_title': 'W E B S C A L E'}
 
     profile_user = None
@@ -30,19 +29,17 @@ def index(request, snippetID=None):
 
         page_context['user_snippets'] = user_snippets
 
-    if snippetID is None:
-        return render(request, 'index.html', page_context)
-
     # Logic for saving a snippet
     if request.user.is_authenticated and request.method == 'POST':
         form = SnippetSaveForm(request.POST)
-        if snippetID == None:
-            return handler404(request)
+
+        print(str(request.POST))
+        print(str(form.is_valid()))
 
         if form.is_valid():
             snippet = Snippit.objects.create() 
             snippet.user_id = request.user
-            snippet.snippet.name = form.cleaned_data['name']
+            snippet.name = form.cleaned_data['name']
             snippet.description = form.cleaned_data['desc']
             snippet.is_public = form.cleaned_data['is_public']
 
@@ -51,9 +48,22 @@ def index(request, snippetID=None):
             snippet.synthesizer_result = 'nothing'
             snippet.save()
 
-    snippet = Snippit.objects.get(pk=snippetID)
+            user_snippets = map(lambda snip: (snip.id.hex, snip.name, snip.description),
+                                Snippit.objects.filter(user_id=profile_user))
 
-    form = SnippetSaveForm()
+            page_context['user_snippets'] = user_snippets
+
+            return render(
+                request,
+                'index.html',
+                page_context,
+            )
+
+
+    if snippetID is None:
+        return render(request, 'index.html', page_context)
+
+    snippet = Snippit.objects.get(pk=snippetID)
 
     page_context['snippet_id'] = snippet.id.hex
     page_context['snippet_name'] = ": {0}".format(snippet.name)
@@ -63,7 +73,6 @@ def index(request, snippetID=None):
     page_context['snippet_spec'] = snippet.program_spec
     page_context['snippet_result'] = snippet.synthesizer_result
     page_context['snippet_is_public'] = snippet.is_public
-    page_context['form'] = form
 
     return render(
         request,
