@@ -1,0 +1,51 @@
+{% extends "base_page.html" %}
+
+{% block title %}<title>{{ page_title }}</title>{% endblock %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/webscale-feed.css' %}">
+{% endblock %}
+
+<!-- Content start-->
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Activity Feed</h1>
+    <h5 class="page-subtitle">The five most recent snippits that have been created</h5>
+    <div id="main" class="row">
+        <div class="col">
+            {% for snippit in snippits %}
+            <!-- Card start -->
+            <div class="mx-auto w-50 p-4 bg-dark feed-card">
+                <div class="row">
+                    <div class="col-9 card-heading">
+                        <div class="row">
+                            <div><b><a href="{% url 'profile' snippit.user_id %}">{{snippit.user_id.first_name}} {{snippit.user_id.last_name}}</a></b></div>
+                        </div>
+                        <div class="row">
+                            <div>Created: <em>{{snippit.name}}</em></div>
+                        </div>
+                    </div>
+                    <div class="col-2 float-right">
+                        <a class="btn btn-success btn-small" href="{% url 'program' snippit.id.hex %}">Load</a>
+                    </div>
+                </div>
+                <div class="row card-description">
+                    <div class="col-12">
+                        <span><i>{{snippit.description}}</i></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Card end -->
+            {% endfor %}
+        </div>
+    </div>
+    <footer class="footer">
+        <hr class="footer-hr">
+        <p>&copy; W E B S C A L E 2017, Distributed under the MIT License</p>
+        <p>Contact us at <a href="mailto:webscale@fakemail.com">webscale@fakemail.com</a></p>
+    </footer>
+
+</div>
+{% endblock %}
+<!-- Content end-->

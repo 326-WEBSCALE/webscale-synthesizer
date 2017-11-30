@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:300');
+
+* {
+  letter-spacing: 1px;
+  word-spacing: 2px;
+  line-height: 150%;
+  font-family: 'Encode Sans Expanded', sans-serif;
+}
+
+html, body {
+  background: linear-gradient(to bottom, rgba(52, 52, 54, 1.0), rgba(52, 52, 54, 1.0));
+  color: white !important;
+  position: relative;
+}
+
+body {
+  padding-bottom: 150px;
+}
+
+#user-drop-down {
+  padding-right: 100px;
+}
+
+h1 {
+  padding-top: 20px;
+}
+
+.profile-header-middle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.profile-picture-container {
+    position: relative;
+}
+
+.profile-picture-container .profile-picture {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+}
+
+.profile-picture {
+  width: 300px; 
+  height: 300px;
+}
+
+.profile-picture.profile-picture-small {
+    width: 60px;
+    height: 60px;
+    margin-top: -1.3em;
+}
+
+.upload-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.heading-hr {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.checkmark {
+  color: green;
+  padding-right: 20px;
+}
+
+.btn-leftpad {
+  margin-left: 10px;
+}
+
+tbody > tr:hover {
+  background: rgba(82, 80, 80, 0.26) !important;
+}
+
+.footer {
+  padding: 10px 40px 10px 40px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer-hr {
+  border-top: 1px solid rgba(194, 192, 192, 0.27);
+}
