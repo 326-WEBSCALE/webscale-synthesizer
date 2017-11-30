@@ -1,0 +1,5 @@
+#!/bin/bash
+
+Z3PATH="/usr/local/bin/z3"
+rm verif.txt
+tee -a verif.txt | $Z3PATH -in -smt2 | tee -a verif.txt

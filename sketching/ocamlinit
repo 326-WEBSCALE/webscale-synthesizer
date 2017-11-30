@@ -1,0 +1,14 @@
+#use "topfind";;
+#thread;;
+#camlp4o;;
+
+#require "core.top";;
+#require "core.syntax";;
+#require "pa_ounit.syntax";;
+#require "compsci631"
+
+open Smtlib
+open Sketching
+open Printf
+
+#use "Synth.ml" 
