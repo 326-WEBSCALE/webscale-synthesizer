@@ -5,7 +5,7 @@ open Printf
 type store = (string * term) list
 let width = ref 4
 
-let z3_path = "/usr/local/bin/z3"
+let z3_path = "/usr/bin/z3"
 
 let sketch_initial : store ref = ref []
 let checker = ref (Some [])
@@ -14,19 +14,21 @@ let rec lookup (iden : 'a) (ablist : ('a * 'b )list) : 'b option =
   match ablist with
   | [] -> None
   | (a',b')::tl when (a' = iden) -> Some b'
-  | _::tl -> lookup iden tl 
+  | _::tl -> lookup iden tl
 
-let iden_to_string : (identifier * term) list -> store = 
+let iden_to_string : (identifier * term) list -> store =
     List.map (fun (x,y) -> let Id s = x in (s,y))
 
-let rec zip (lst1 : 'a list) (lst2 : 'b list) =
-  (*if (List.length lst1) != (List.length lst2) then
-   failwith ("Cannot zip lists of unequal size")
+let rec zip (lst1 : ('a * 'c) list) (lst2 : ('a * 'b) list) =
+  (*let l1 = List.length lst1 and l2 = List.length lst2 in
+  if l1 != l2 then
+    failwith ("Cannot zip lists of unequal size: " ^ (string_of_int l1)
+    ^ " and " ^ (string_of_int l2))
   else*)
     match lst1 with
     | [] -> []
-    | (a,b)::tl -> 
-      match lookup a lst2 with
+    | (a,b)::tl ->
+        match lookup a lst2 with
       | Some m -> (m,b)::(zip tl lst2)
       | None -> failwith ("Could not find association of var -- ZIP")
 
@@ -44,71 +46,73 @@ let rec store_to_string store : string =
   | [] -> ""
   | (iden,_)::tl -> iden^"; "^(store_to_string tl)
 
-module Initial_Store = struct 
-  
+module Initial_Store = struct
+
   let rec exp_is solver store exp : store =
   match exp with
-  | EId id -> if (lookup id store = None) then 
+  | EId id -> if (lookup id store = None) then
                 let term_ = Id id in
                 declare_const solver term_ (bv_sort !width);
                 update_list store id (Smtlib.Const term_)
-              else store 
+              else store
   | EOp1(_,e1) -> exp_is solver store e1
   | EOp2(_,e1,e2) -> let store' = exp_is solver store e1 in
                       exp_is solver store' e2
   | EInt _ | EWidth -> store
-  | EHole loc -> 
+  | EHole loc ->
     let hole_id = "hole_" ^ (string_of_int loc) in
     declare_const solver (Id hole_id) (bv_sort !width);
     update_list store hole_id (Smtlib.const hole_id)
 
   let rec cmd_is solver store cmd : store =
   match cmd with
-  | CAssign (id,exp) -> 
+  | CAssign (id,exp) ->
       let store' = exp_is solver store exp in
       if (lookup id store' = None) then
         let term_ = Id id in
           declare_const solver term_ (bv_sort !width);
           update_list store' id (Smtlib.Const term_)
-      else store' 
-  | CIf (pred,c1,c2) -> 
+      else store'
+  | CIf (pred,c1,c2) ->
       let store1 = exp_is solver store pred in
       let store2 = cmd_is solver store1 c1 in
       cmd_is solver store2 c2
-  | CSeq (c1,c2) -> 
+  | CSeq (c1,c2) ->
       let store' = cmd_is solver store c1 in
       cmd_is solver store' c2
   | CSkip | CAbort -> store
-  | CRepeat (id,e,c) -> 
+  | CRepeat (id,e,c) ->
     let store1 = exp_is solver store e in
     let store2 = cmd_is solver store1 c in
     if(lookup id store2 = None) then
       let term_ = Id id in
           declare_const solver term_ (bv_sort !width);
           update_list store2 id (Smtlib.Const term_)
-      else store2 
+      else store2
 end
 
 let collect_and_declare_vars solver (cmd : cmd) : store =
     Initial_Store.cmd_is solver [] cmd
 
-module To_Formula = struct 
+module To_Formula = struct
 
   let rec exp_tf (store : store) (exp : exp) : term =
       match exp with
-      | EId x -> 
+      | EId x ->
         (match lookup x store with
-        | None -> failwith ("Could not find association to " ^ x
-                              ^ " in store: " ^ store_to_string store^ " -- EXP_TO_FORMULA")
+        | None -> failwith (
+          "Could not find association to " ^ x
+          ^ " in store: " ^ store_to_string store^ " -- EXP_TO_FORMULA")
         | Some term_ -> (*print_endline ("Replacing "^ x);*)term_)
       | EInt i -> Smtlib.bv i !width
       | EWidth -> Smtlib.bv !width !width
-      | EOp1(op,e) -> 
+      | EOp1(op,e) ->
         let t = exp_tf store e in
         (match op with
         | BNot -> bvnot t
-        | LNot -> ite (equals t (Smtlib.bv 0 !width)) (bv 1 !width) (Smtlib.bv 0 !width) )
-      | EOp2 (op,e1,e2) -> 
+        | LNot -> ite
+          (equals t (Smtlib.bv 0 !width)) (bv 1 !width) (Smtlib.bv 0 !width) )
+      | EOp2 (op,e1,e2) ->
         let t1 = exp_tf store e1 in
         let t2 = exp_tf store e2 in
        (match op with
@@ -125,7 +129,7 @@ module To_Formula = struct
         | LOr -> ite (and_ (equals t1 (Smtlib.bv 0 !width)) (equals t2 (Smtlib.bv 0 !width))) (Smtlib.bv 0 !width) (bv 1 !width)
         | Eq -> ite (equals t1 t2) (bv 1 !width) (bv 0 !width))
 
-      | EHole i -> 
+      | EHole i ->
         let hole_id = ("hole_" ^ string_of_int i) in
         match lookup hole_id store with
         | None -> failwith ("Could not find term associated to " ^ hole_id
@@ -135,11 +139,11 @@ module To_Formula = struct
   let rec if_consolidate pred_term c_store a_store : store =
     match c_store with
     | [] -> []
-    | (id,c_term)::tl -> 
+    | (id,c_term)::tl ->
       match lookup id a_store with
-      | None -> failwith ("Could not find " ^ id ^ 
+      | None -> failwith ("Could not find " ^ id ^
                           " in the alternate store")
-      | Some a_term -> 
+      | Some a_term ->
         let if_term = ite (not_ (equals pred_term (bv 0 !width))) c_term a_term in
         (if (a_term = c_term) then
           (id,c_term)
@@ -151,16 +155,16 @@ module To_Formula = struct
     let loop_id = const "loop_const" in
       declare_const simp_solver (Id "loop_const") (bv_sort !width);
     let formula_t = exp_tf store formula in
-    
+
     (try assert_ simp_solver (equals loop_id formula_t) with
       Failure msg -> failwith ("Failed to simply loop constant, there may be "^
                     "varibles which are not associated to a constant : "^msg));
-    
+
     match check_sat simp_solver with
     | Unsat | Unknown -> failwith "Failed to simply loop constant"
-    | Sat -> 
+    | Sat ->
       let simp_store = iden_to_string (get_model simp_solver) in
-      let val_term = 
+      let val_term =
       ( match lookup "loop_const" simp_store with
                        | None -> failwith "Failed to find loop constant in the simplified model"
                        | Some t -> t) in
@@ -173,18 +177,18 @@ module To_Formula = struct
                    "  Store: " ^ store_to_string store);*)
     match cmd with
     | CSkip | CAbort -> store
-    | CAssign (id,exp) -> 
+    | CAssign (id,exp) ->
       let assign_term = exp_tf store exp in
       update_list store id assign_term
     | CSeq (c1,c2) ->
       let store' = cmd_tf store c1 in
       cmd_tf store' c2
-    | CIf (p,c,a) -> 
+    | CIf (p,c,a) ->
       let pt = exp_tf store p in
       let c_store = cmd_tf store c and
           a_store = cmd_tf store a in
       if_consolidate pt c_store a_store
-    | CRepeat (x,exp,c) -> 
+    | CRepeat (x,exp,c) ->
       let unroll_fac = (simp_loop_const store exp) in
       unroll_loop_tf store x c unroll_fac
       (*match exp with
@@ -194,10 +198,10 @@ module To_Formula = struct
 
 
   and unroll_loop_tf store id (c : cmd) (reps : int) : store  =
-    let rec iterate store' (iter : int) : store = 
+    let rec iterate store' (iter : int) : store =
     match iter with
     | n when (n=reps)-> store'
-    | n -> 
+    | n ->
       let new_store = cmd_tf (update_list store' id (bv n !width)) c in
       iterate new_store (iter + 1)
     in
@@ -205,7 +209,7 @@ module To_Formula = struct
 end
 
 let cmd_to_store (store : store) (cmd : Sketching.cmd) : store =
-  To_Formula.cmd_tf store cmd 
+  To_Formula.cmd_tf store cmd
 
 module Cegis_Loop = struct
   let rec list_to_conjunction (lst : ('a * 'a ) list) : Smtlib.term =
@@ -215,8 +219,10 @@ module Cegis_Loop = struct
     | (t1,t2)::tl when t1 = t2 -> (list_to_conjunction tl)
     | (t1,t2)::tl -> and_ (equals t1 t2) (list_to_conjunction tl)
 
-  let verif_and_model solver store (spec : cmd) (sketch : cmd) 
-    : (identifier * term) list option =
+  let verif_and_model solver
+    (store : (string * term) list)
+    (spec : cmd)
+    (sketch : cmd) : (identifier * term) list option =
     let spec_store = cmd_to_store store spec in
     let sketch_store = cmd_to_store store sketch in
     let (z_store : (term * term) list) = zip spec_store sketch_store in
@@ -239,7 +245,7 @@ module Cegis_Loop = struct
     | Sat -> get_model solver
     | _ -> failwith "Failed to generate values, spec and sketch not consistent -- SYNTH_VAL_GEN"
 
-  let solver_ini (synth : solver) (verif : solver) spec sketch : 
+  let solver_ini (synth : solver) (verif : solver) spec sketch :
     (store * store) =
     let spec_initial = collect_and_declare_vars verif spec in
     let sketch_initial = collect_and_declare_vars synth sketch in
@@ -263,12 +269,12 @@ module Cegis_Loop = struct
   let rec cegis_loop (hole_store : store) synth verif spec sketch : store =
     match (verif_and_model verif hole_store spec sketch) with
     | None -> hole_store
-    | Some ex_store -> 
+    | Some ex_store ->
       (* The example store is a assoc of ident and term, convert to store *)
       let const_vals = filter_no_holes (iden_to_string ex_store) in
-      (* Remove all hole values from the store for synthesis system 
+      (* Remove all hole values from the store for synthesis system
           and consolidate with the inital sketch store *)
-      let store_for_synth = consolidate_stores !sketch_initial const_vals in 
+      let store_for_synth = consolidate_stores !sketch_initial const_vals in
       (* Synthesize values for the next iteration *)
       let synth_res = synth_val_gen synth store_for_synth spec sketch in
       (* The store is an assoc of ident and term, convert to store *)
@@ -282,7 +288,7 @@ end
 module Fill_Holes = struct
   let rec fill_exp store exp : exp =
     match exp with
-    | EHole i -> 
+    | EHole i ->
       let hole_id = ("hole_" ^ string_of_int i) in
       (match lookup hole_id store with
       | None -> failwith ("Could not find value for " ^ hole_id)
@@ -309,19 +315,19 @@ let cegis_simp (synth : solver) (verif : solver)
   let (spec_store,sketch_store) = Cegis_Loop.solver_ini synth verif spec sketch in
     (*spec_initial := spec_store;*)
     sketch_initial := sketch_store;
-  let hole_val_guess = 
+  let hole_val_guess =
    Cegis_Loop.consolidate_stores !sketch_initial
-                      (List.map (fun (x,_) -> (x,(Smtlib.bv 1 !width))) 
+                      (List.map (fun (x,_) -> (x,(Smtlib.bv 1 !width)))
                                 (Cegis_Loop.filter_holes !sketch_initial)) in
   let hole_store = Cegis_Loop.cegis_loop hole_val_guess synth verif spec sketch in
   Some (complete_sketch (Cegis_Loop.filter_holes hole_store) sketch)
 
 module Sketch_loops = struct
-   
-  type guess_store = (string * int) list 
+
+  type guess_store = (string * int) list
 
   (* Remember to pad the list if an empty list is given
-      - Corresponds to the case when sketch loops are not holes 
+      - Corresponds to the case when sketch loops are not holes
   *)
   let rec gen_stream (store : (string * int) list) :
     (string * int) list list =
@@ -336,7 +342,7 @@ module Sketch_loops = struct
     match store with
     | [] -> []
     | p::[] -> List.map (fun x -> x::[]) (unfold p)
-    | p::tl -> 
+    | p::tl ->
       List.flatten (List.map (fun x -> helper p x) (gen_stream tl))
 
   let rec collect_loop_hole gstore cmd : guess_store =
@@ -346,23 +352,23 @@ module Sketch_loops = struct
       | EHole i -> let lid = "loop_"^id in
           update_list gstore lid 1
       | _ -> gstore)
-  | CSeq(c1,c2) | CIf(_,c1,c2) -> 
+  | CSeq(c1,c2) | CIf(_,c1,c2) ->
     let gstore'= collect_loop_hole gstore c1 in
     collect_loop_hole gstore' c2
   | _ -> gstore
-  
+
 
   let rec fill_loop_hole gstore cmd : cmd =
   match cmd with
   | CRepeat (id,exp,c) ->
     ( match exp with
-      | EHole i -> 
+      | EHole i ->
         let lid = "loop_"^id in
         (match lookup lid gstore with
         | Some guess -> CRepeat (id, EInt guess, c)
         | None -> failwith ("Could not find the value of " ^ lid ^ " in guess store"))
       | _ -> cmd)
-  | CSeq(c1,c2) -> 
+  | CSeq(c1,c2) ->
     CSeq(fill_loop_hole gstore c1,
          fill_loop_hole gstore c2)
   | CIf(e,c1,c2) ->
@@ -371,26 +377,26 @@ module Sketch_loops = struct
         fill_loop_hole gstore c2)
   | _ -> cmd
 
-  let rec gsstring store = 
+  let rec gsstring store =
   match store with
   | [] -> ""
   | (i,n)::tl -> (i ^ "," ^ (string_of_int n)^ "; ")^(gsstring tl)
 
-  let guess_check (gstore : guess_store) (synth : solver) 
+  let guess_check (gstore : guess_store) (synth : solver)
     (verif : solver)  (sketch : cmd) (spec : cmd): cmd option =
   let no_loop_sketch = fill_loop_hole gstore sketch in
   (*print_endline ("Converting: " ^ (Sketching.to_string no_loop_sketch));*)
   try (cegis_simp synth verif no_loop_sketch spec) with
-  Failure msg -> 
+  Failure msg ->
     (*print_endline (Sketching.to_string no_loop_sketch);
     print_endline msg;*)
     None
 
 
-  let rec guess_loop (guess_stream : guess_store list) 
+  let rec guess_loop (guess_stream : guess_store list)
     (sketch : cmd) (spec : cmd) : cmd option =
-  let synth = Smtlib.make_solver "./z3-synth" in
-  let verif = Smtlib.make_solver "./z3-verif" in
+  let synth = Smtlib.make_solver z3_path in
+  let verif = Smtlib.make_solver z3_path in
   match guess_stream with
   | [] -> None
   | gstore::tl ->
@@ -405,8 +411,8 @@ module Sketch_loops = struct
   let gstore_stream : (guess_store list) = gen_stream ini in
   match gstore_stream with
   | [] ->
-    let synth = Smtlib.make_solver "./z3-synth" in
-    let verif = Smtlib.make_solver "./z3-verif" in
+    let synth = Smtlib.make_solver z3_path in
+    let verif = Smtlib.make_solver z3_path in
     (cegis_simp synth verif sketch spec)
   | _ -> guess_loop gstore_stream sketch spec
 end
@@ -417,8 +423,8 @@ let cegis (w : int) (synth : solver) (verif : solver)
   Sketch_loops.sketch_guess_loop sketch spec
 
 let _ =
-  let synth = Smtlib.make_solver "./z3-synth" in
-  let verif = Smtlib.make_solver "./z3-verif" in
+  let synth = Smtlib.make_solver z3_path in
+  let verif = Smtlib.make_solver z3_path in
   let w = int_of_string Sys.argv.(1) in
       width := w;
   let sketch = Sketching.from_file Sys.argv.(2) in
