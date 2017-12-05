@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/z3
 
 Z3PATH="/usr/local/bin/z3"
 rm synth.txt

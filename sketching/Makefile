@@ -1,8 +1,6 @@
 opts=-use-ocamlfind \
-	-syntax camlp4o \
 	-pkg core \
 	-pkg compsci631 \
-	-pkg pa_ounit.syntax \
 	-tag thread \
 	-tag debug \
 	-tag bin_annot \
@@ -18,3 +16,7 @@ clean:
 
 test: all
 	./Synth.d.byte inline-test-runner dummy
+
+
+	#-syntax camlp4o \
+	#-pkg pa_ounit.syntax \
