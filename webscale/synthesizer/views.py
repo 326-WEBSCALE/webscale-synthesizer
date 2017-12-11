@@ -43,7 +43,7 @@ def index(request, snippetID=None):
         print(form)
 
         if form.is_valid():
-            snippet = Snippit.objects.create() 
+            snippet = Snippit.objects.create()
             snippet.user_id = request.user
             snippet.name = form.cleaned_data['name']
             snippet.description = form.cleaned_data['desc']

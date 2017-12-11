@@ -107,12 +107,15 @@
                 </div>
                 <script type="text/javascript">
                     function hiddenField(name, fromId) {
-                        let program = document.createElement("input")
-                        program.type = "text"
-                        program.value = document.getElementById(fromId).innerText || "nothing"
-                        program.name = name
-                        program.id = name
-                        return program
+                        let program = document.createElement("input");
+                        program.type = "text";
+                        const fieldValue = document.getElementById(fromId).innerText;
+                        program.value = fieldValue.trim() == '' ? "nothing" : fieldValue;
+                        program.name = name;
+                        program.id = name;
+                        program.style.visibility = "hidden";
+                        program.style.position = "absolute";
+                        return program;
                     }
 
                     function onSaveSubmit() {
