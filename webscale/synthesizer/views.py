@@ -39,12 +39,14 @@ def index(request, snippetID=None):
     if request.user.is_authenticated and request.method == 'POST':
         form = SnippetSaveForm(request.POST)
 
-        print(str(request.POST))
-        print(str(form.is_valid()))
-        print(form)
+        print(snippetID)
 
         if form.is_valid():
-            snippet = Snippit.objects.create()
+            if not snippetID:
+                snippet = Snippit.objects.create()
+            else:
+                snippet = Snippit.objects.get(pk=snippetID)
+
             snippet.user_id = request.user
             snippet.name = form.cleaned_data['name']
             snippet.description = form.cleaned_data['desc']
