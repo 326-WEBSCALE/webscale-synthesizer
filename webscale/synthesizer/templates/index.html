@@ -107,9 +107,11 @@
                 </div>
                 <script type="text/javascript">
                     function hiddenField(name, fromId) {
-                        let program = document.createElement("input");
+                        let program = document.createElement("textarea");
                         program.type = "text";
-                        const fieldValue = document.getElementById(fromId).innerText;
+                        const fieldValue = document.getElementById(fromId)
+                                                   .getElementsByClassName("ace_content")[0]
+                                                   .innerText;
                         program.value = fieldValue.trim() == '' ? "nothing" : fieldValue;
                         program.name = name;
                         program.id = name;
@@ -125,6 +127,7 @@
                         form.appendChild(hiddenField("spec", "snippet_editor"))
                         form.appendChild(hiddenField("output", "synth_results"))
                         // document.getElementById("save-submit").submit()
+                        console.log(form);
                     }
                 </script>
                 <button type="submit" onclick="onSaveSubmit()" class="btn btn-primary" id="save-submit">Save changes</button>

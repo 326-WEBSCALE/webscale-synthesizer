@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from datetime import datetime
 
 
@@ -49,8 +50,8 @@ def index(request, snippetID=None):
             snippet.description = form.cleaned_data['desc']
             snippet.is_public = form.cleaned_data['is_public']
 
-            snippet.program_text = form.cleaned_data['program']
-            snippet.program_spec = form.cleaned_data['desc']
+            snippet.program_text = form.cleaned_data['spec']
+            snippet.program_spec = form.cleaned_data['program']
             snippet.synthesizer_result = form.cleaned_data['output']
             snippet.save()
 
@@ -58,12 +59,7 @@ def index(request, snippetID=None):
                                 Snippit.objects.filter(user_id=profile_user))
 
             page_context['user_snippets'] = user_snippets
-
-            return render(
-                request,
-                'index.html',
-                page_context,
-            )
+            return HttpResponseRedirect(reverse('program', args=[snippet.id.hex]))
 
 
     if snippetID is None:
