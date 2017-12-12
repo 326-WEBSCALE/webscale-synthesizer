@@ -18,7 +18,8 @@
     }
 
     function onSynthesize(){
-        let csrftoken = Cookies.get('csrftoken');
+        const csrftoken = Cookies.get('csrftoken');
+        const snippetID = "{{ snippet_id }}";
         const spec = getText("spec_editor");
         const sketch = getText("snippet_editor");
         let xhttp = new XMLHttpRequest();
@@ -26,13 +27,13 @@
         xhttp.setRequestHeader("X-CSRFToken", csrftoken);
         xhttp.send(JSON.stringify({
             'spec': spec,
-            'sketch': sketch
+            'sketch': sketch,
+            'snippet_id': snippetID
         }));
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 /* document.getElementById("demo").innerHTML = this.responseText;*/
                 const response = JSON.parse(this.response);
-                console.log(response);
                 let out_editor = ace.edit('synth_results');
                 out_editor.setValue(response.synth_out, 1);
                 out_editor.focus();
@@ -169,7 +170,6 @@
                         form.appendChild(hiddenField("spec", "snippet_editor"))
                         form.appendChild(hiddenField("output", "synth_results"))
                         // document.getElementById("save-submit").submit()
-                        console.log(form);
                     }
                 </script>
                 <button type="submit" onclick="onSaveSubmit()" class="btn btn-primary" id="save-submit">Save changes</button>

@@ -9,6 +9,7 @@ import json
 import uuid
 import os
 import subprocess
+import time
 
 from .models import *
 from django.contrib.auth.models import User
@@ -60,9 +61,24 @@ def synthesize(request):
         received_json_data = json.loads(request.body)
         specf = writeTmpF(received_json_data['spec'])
         sketchf = writeTmpF(received_json_data['sketch'])
+
+        begin = time.clock_gettime(time.CLOCK_REALTIME)
         synth_run = subprocess.run(["../sketching/Synth.d.byte", "4", sketchf, specf],
                                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        end = time.clock_gettime(time.CLOCK_REALTIME)
+
         synth_out = str(synth_run.stdout, 'utf-8')
+
+        snippetID = received_json_data['snippet_id']
+        if snippetID:
+            print(snippetID)
+            delta = end - begin
+            num_holes = synth_out.count(';')
+            snip_data = SnippitData.objects.get(snippit_id=snippetID)
+            snip_data.synthesizer_time = delta
+            snip_data.holes_count = num_holes
+            snip_data.save()
+
         os.unlink(specf)
         os.unlink(sketchf)
         response = JsonResponse({'synth_out': synth_out})
