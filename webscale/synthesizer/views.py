@@ -20,6 +20,20 @@ class SnippetSaveForm(forms.Form):
     desc = forms.CharField()
     is_public = forms.BooleanField(required=False)
 
+def search(request):
+    """
+    View function for search.
+    """
+    q = request.GET.get("q")
+    snippits = Snippit.objects.filter(is_public=True).order_by('-id')[:5]
+
+    if q:
+       results = Snippit.objects.filter(name__icontains=q)
+    else:
+       results = Snippit.objects.all()
+    context = dict(results=results, q=q)
+    return render(request, "index.html", context)
+
 def index(request, snippetID=None):
     """
     View function for home page of site.
@@ -221,7 +235,7 @@ def profile_edit(request):
         return render(
             request,
             'synthesizer/profile_edit.html',
-            context={'page_title': 'Edit Profile', 'programs': programs, 
+            context={'page_title': 'Edit Profile', 'programs': programs,
             },
         )
 

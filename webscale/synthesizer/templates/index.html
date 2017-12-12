@@ -193,7 +193,7 @@
                                 <tr>
                                 {% empty %}
                                 <tr>
-                                    <td> No snippets to display. Login to get your snippets.</td>
+                                    <td> No snippets to display. Create one!</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -224,17 +224,29 @@
 
             <!-- Modal content start -->
             <div class="modal-body">
+
                 <div class="container-fluid">
-                    <form role="form">
+                  <form id="searchform" method="GET" accept-charset="utf-8">
+                    {% csrf_token %}
                         <div class="row">
                             <div class="input-group input-group-lg">
-                                <input type="text" class="form-control" placeholder="This would call an endpoint and populate the results below."/>
+                              <input type="text" class="form-control" placeholder="Search for the name of a program."/>
+                              <div class="input-group-btn">
+                                <button class="btn" type="submit">Search</button>
+                              </div>
+                          </div>
+                      </div>
+                  </form>
+                    <!-- <form role="form">
+                        <div class="row">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class="form-control" placeholder="Search for the name of a program."/>
                                 <div class="input-group-btn">
                                     <button type="submit" class="btn">Search</button>
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
 
                     <div class="row margin-top">
                         <h4>Search Results:</h4>
@@ -248,6 +260,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for snip in snippits %}
+                                <tr>
+                                    <td>{{snip.user_full_name}}</td>
+                                    <td>{{snip.name}}</td>
+ +                                  <td>{{snip.description}}</td>
+                                    <a class="btn btn-success btn-small" href="{% url 'program' snippit.id.hex %}">Load</a>
+                                <tr>
+                                {% empty %}
+                                <tr>
+                                    <td> Enter your search to view results.</td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
