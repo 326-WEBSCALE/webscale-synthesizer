@@ -25,7 +25,6 @@ class SnippetSaveForm(forms.Form):
     desc = forms.CharField()
     is_public = forms.BooleanField(required=False)
 
-
 def synthesize(request):
     def writeTmpF(data):
         """Write data to temp files that the sythesizer will read from"""
@@ -51,6 +50,19 @@ def synthesize(request):
     # Throw server error if this url is accessed not through a POST request
     return HttpResponseServerError()
 
+def search(request):
+    """
+    View function for search.
+    """
+    q = request.GET.get("q")
+    snippits = Snippit.objects.filter(is_public=True).order_by('-id')[:5]
+
+    if q:
+       results = Snippit.objects.filter(name__icontains=q)
+    else:
+       results = Snippit.objects.all()
+    context = dict(results=results, q=q)
+    return render(request, "index.html", context)
 
 def index(request, snippetID=None):
     """
@@ -253,7 +265,7 @@ def profile_edit(request):
         return render(
             request,
             'synthesizer/profile_edit.html',
-            context={'page_title': 'Edit Profile', 'programs': programs, 
+            context={'page_title': 'Edit Profile', 'programs': programs,
             },
         )
 
