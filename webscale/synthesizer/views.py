@@ -1,9 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseServerError
+from django.http import JsonResponse
 from django.urls import reverse
 from datetime import datetime
-
+import json
+import uuid
+import os
+import subprocess
 
 from .models import *
 from django.contrib.auth.models import User
@@ -19,6 +24,33 @@ class SnippetSaveForm(forms.Form):
     name = forms.CharField()
     desc = forms.CharField()
     is_public = forms.BooleanField(required=False)
+
+
+def synthesize(request):
+    def writeTmpF(data):
+        """Write data to temp files that the sythesizer will read from"""
+        fileuuid = uuid.uuid4().hex # gen rand uuid to handle file conflicts
+        fpath = os.path.join('/tmp', fileuuid)
+        with open(fpath, "w") as f:
+            f.write(data)
+        return fpath
+
+
+    if request.method == 'POST':
+        received_json_data = json.loads(request.body)
+        specf = writeTmpF(received_json_data['spec'])
+        sketchf = writeTmpF(received_json_data['sketch'])
+        synth_run = subprocess.run(["../sketching/Synth.d.byte", "4", sketchf, specf],
+                                   stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        synth_out = str(synth_run.stdout, 'utf-8')
+        os.unlink(specf)
+        os.unlink(sketchf)
+        response = JsonResponse({'synth_out': synth_out})
+        return response
+
+    # Throw server error if this url is accessed not through a POST request
+    return HttpResponseServerError()
+
 
 def index(request, snippetID=None):
     """

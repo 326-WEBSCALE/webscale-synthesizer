@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^api/synthesize$', views.synthesize, name='synthesize'),
     url(r'^program/(\w*)$', views.index, name='program'),
     url(r'^about/$', views.about, name='about'),
     url(r'^faq/$', views.faq, name='faq'),

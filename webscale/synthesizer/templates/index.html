@@ -3,16 +3,55 @@
 {% block extra_assets %}
 {% load static %}
 <script src="{% static 'js/ace-min-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 {% endblock %}
 
 {% block content %}
+
+<script type="text/javascript">
+    function getText(fromId) {
+        const fieldValue = document.getElementById(fromId)
+                                .getElementsByClassName("ace_content")[0]
+                                .innerText;
+        const extractedText = fieldValue.trim() == '' ? null : fieldValue;
+        return extractedText;
+    }
+
+    function onSynthesize(){
+        let csrftoken = Cookies.get('csrftoken');
+        const spec = getText("spec_editor");
+        const sketch = getText("snippet_editor");
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "{% url 'synthesize' %}", true);
+        xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+        xhttp.send(JSON.stringify({
+            'spec': spec,
+            'sketch': sketch
+        }));
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                /* document.getElementById("demo").innerHTML = this.responseText;*/
+                const response = JSON.parse(this.response);
+                console.log(response);
+                let out_editor = ace.edit('synth_results');
+                out_editor.setValue(response.synth_out, 1);
+                out_editor.focus();
+                var row = out_editor.session.getLength() - 1
+                var column =  Infinity // or simply Infinity
+                out_editor.selection.moveTo(row - 1, column);
+                out_editor.selection.moveTo(0, 0);
+            }
+        };
+    }
+</script>
+
 <!-- Content start-->
 <div id="main" class="container-fluid">
     <div class="row row-fill">
         <!-- Sidebar start -->
         <div class="col-1">
             <div class="btn-group-vertical action-buttons">
-                <button type="button" class="btn btn-primary item">Synthesize!</button>
+                <button type="button" onclick="onSynthesize()" class="btn btn-primary item">Synthesize!</button>
                 <a id="discuss-button" href="{% url 'discussion' snippet_id %}" class="btn btn-warning item" style="display: none;">Discuss</a>
                 {% if request.user.is_authenticated %}
                 <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
@@ -288,10 +327,12 @@
  synth_results.setTheme("ace/theme/monokai");
  synth_results.getSession().setMode("ace/mode/python");
  synth_results.session.setUseWorker(false)
- synth_results.setShowPrintMargin(false);
+ synth_results.setShowPrintMargin(true);
  synth_results.renderer.setShowGutter(false);
  synth_results.setOptions({
-     readOnly: true
+     readOnly: true,
+     scrollPastEnd: true
  });
+ synth_results.resize();
 </script>
 {% endblock %}
