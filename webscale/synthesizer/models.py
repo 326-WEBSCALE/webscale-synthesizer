@@ -8,7 +8,10 @@ class ApplicationTable(models.Model):
     """
     Model of a table for applications
     """
-    client_secret = models.CharField('Client Secret', max_length=200)
+
+    api_key = models.CharField('API key', max_length=200, null=True)
+    client_id = models.CharField('Client ID', max_length=200, null=True)
+    client_secret = models.CharField('Client Secret', max_length=200, null=True)
     contact_email = models.EmailField('Contact Email', max_length=200, help_text="Enter your email")
     copyright_date = models.CharField('Copyright Date', max_length=200, help_text="Enter copyright date")
 

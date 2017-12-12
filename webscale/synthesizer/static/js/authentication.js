@@ -1,27 +1,44 @@
- // Client ID and API key from the Developer Console
- var CLIENT_ID = '1093638360673-48ljk7llbf3tpq57u514nh3biupe3fgc.apps.googleusercontent.com';
- var API_KEY = 'AIzaSyA7JofBjhR6yjh1uqJV4FV_MDDQfee4Uyk';
+async function fetchSecrets(){
+    return new Promise((resolve, reject) => {
+    let csrftoken = Cookies.get('csrftoken');
+    let xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/api/secrets", true);
+    xhttp.setRequestHeader("X-CSRFToken", csrftoken);
+    xhttp.send();
 
- // Array of API discovery doc URLs for APIs used by the quickstart
- var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            /* document.getElementById("demo").innerHTML = this.responseText;*/
+            const response = JSON.parse(this.response);
+            resolve(response);
+        }
+    };
+    });
+}
 
- var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.file';
+var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 
- var authorizeButton = document.getElementById('authorize-button');
- var signoutButton = document.getElementById('signout-button');
+var SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/drive.file';
 
- /**
-  *  On load, called to load the auth2 library and API client library.
-  */
- function handleClientLoad() {
-     gapi.load('client:auth2', initClient);
- }
+var authorizeButton = document.getElementById('authorize-button');
+var signoutButton = document.getElementById('signout-button');
 
- /**
-  *  Initializes the API client library and sets up sign-in state
-  *  listeners.
-  */
- function initClient() {
+/**
+ *  On load, called to load the auth2 library and API client library.
+ */
+function handleClientLoad() {
+    gapi.load('client:auth2', initClient);
+}
+
+/**
+ *  Initializes the API client library and sets up sign-in state
+ *  listeners.
+ */
+async function initClient() {
+    // await fetchSecrets();
+    const response = await fetchSecrets();
+    const CLIENT_ID = response.client_id;
+    const API_KEY = response.api_key;
      gapi.client.init({
          apiKey: API_KEY,
          clientId: CLIENT_ID,
@@ -116,7 +133,7 @@ function uploadFile(name,data,callback) {
         'body': multipartRequestBody});
     if (!callback) {
         callback = function(file) {
-            console.log(file)
+            console.log("Success!");
         };
     }
     request.execute(callback);

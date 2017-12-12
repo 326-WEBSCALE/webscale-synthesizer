@@ -32,6 +32,20 @@ def authentication(request):
     )
 
 
+def getSecrets(request):
+    #Using POST so that CSRFToken is checked for security
+    if request.method == 'POST':
+        secrets = ApplicationTable.objects.get();
+        response = JsonResponse({
+            'api_key': secrets.api_key,
+            'client_id': secrets.client_id
+        });
+        return response;
+
+    # Throw server error if this url is accessed not through a POST request
+    return HttpResponseServerError();
+
+
 def synthesize(request):
     def writeTmpF(data):
         """Write data to temp files that the sythesizer will read from"""
