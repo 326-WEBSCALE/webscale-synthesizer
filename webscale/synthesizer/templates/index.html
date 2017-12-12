@@ -56,6 +56,9 @@
                 {% if request.user.is_authenticated %}
                 <button type="button" data-toggle="modal" href="#save-modal" class="btn btn-info item">Save</button>
                 <button type="button" data-toggle="modal" href="#load-modal" class="btn btn-info item">Load</button>
+                {% if snippet_id %}
+                <button type="button" data-toggle="modal" href="#export-modal" class="btn btn-info item">Export</button>
+                {% endif %}
                 {% endif %}
                 <button type="button" data-toggle="modal" href="#search-modal" class="btn btn-info item">Search</button>
             </div>
@@ -69,7 +72,7 @@
                 <!-- Editor Start  -->
                 <div class="col-6 no-padding-right">
 
-                    <span class="section-title">Program Specification{{ snippet_name }}</span>
+                    <span id="snip_name" class="section-title">Program Specification{{ snippet_name }}</span>
                     <!-- <textarea class="form-control editor" placeholder="Type your program here...">TODO: Update model to include this. I think that this is necessary, but not sure.</textarea> -->
                     <div id="spec_editor" class="editor">{{  snippet_spec }}</div>
 
@@ -174,18 +177,6 @@
             </div>
             <!-- Modal content end -->
 
-            <!-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Export to Google Drive</a>
-                        <a class="dropdown-item" href="#">Download</a>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>
@@ -250,6 +241,85 @@
 </div>
 <!-- Load modal end -->
 
+
+<!-- Export modal start -->
+<div class="modal" id="export-modal" tabindex="-1" role="dialog" aria-labelledby="save-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="save-modal-label">Save Program</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div id="export-form">
+                    <div class="form-group row">
+                        <label for="name-input" class="col-3 col-form-label">Name</label>
+                        <div class="col-9">
+                            <input class="form-control" type="text" value="{{ snippet_actual_name }}" name="name" id="id_name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description-input" class="col-3 col-form-label">Description</label>
+                        <div class="col-9">
+                            <input class="form-control" type="text" value="{{ snippet_description }}" name="desc" id="id_desc">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="download()" data-dismiss="modal">Download</button>
+                <div class="btn-group">
+                    <button id="authorize-button" type="button" class="btn btn-primary" data-dismiss="modal">Export to Google Drive</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% load static %}
+<script src="{% static 'js/authentication.js' %}" type="text/javascript" charset="utf-8"></script>
+
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+<script type="text/javascript">
+ function download() {
+     const sketch = getText("snippet_editor");
+     const spec = getText("spec_editor");
+     const output = getText("synth_results");
+
+     const filename = document.getElementById('snip_name').innerText.slice(23);
+     const filedata = "Sketch:\n" + sketch + "\nSpec:\n" + spec
+                   + "\nSynthesized Output:\n" + output;
+     const type = "text/plain";
+
+     var file = new Blob([filedata], {type: type});
+     if (window.navigator.msSaveOrOpenBlob) // IE10+
+         window.navigator.msSaveOrOpenBlob(file, filename);
+     else { // Others
+         var a = document.createElement("a"),
+             url = URL.createObjectURL(file);
+         a.href = url;
+         a.download = filename;
+         document.body.appendChild(a);
+         a.click();
+         setTimeout(function() {
+             document.body.removeChild(a);
+             window.URL.revokeObjectURL(url);
+         }, 0);
+     }
+ }
+</script>
+
+<!-- Export modal end -->
+
 <!-- Search modal start -->
 <div class="modal" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="search-modal-label" aria-hidden="true">
     <div class="modal-dialog  modal-lg" role="document">
@@ -303,7 +373,7 @@
                                 <tr>
                                     <td>{{snip.user_full_name}}</td>
                                     <td>{{snip.name}}</td>
- +                                  <td>{{snip.description}}</td>
+                                  <td>{{snip.description}}</td>
                                     <a class="btn btn-success btn-small" href="{% url 'program' snippit.id.hex %}">Load</a>
                                 <tr>
                                 {% empty %}

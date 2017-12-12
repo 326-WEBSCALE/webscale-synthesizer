@@ -25,6 +25,13 @@ class SnippetSaveForm(forms.Form):
     desc = forms.CharField()
     is_public = forms.BooleanField(required=False)
 
+def authentication(request):
+    return render(
+        request,
+        'authentication.html',
+    )
+
+
 def synthesize(request):
     def writeTmpF(data):
         """Write data to temp files that the sythesizer will read from"""
