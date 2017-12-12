@@ -26,6 +26,26 @@
     <hr class="heading-hr">
 
     <div class="row">
+        {% if avg_synth_time or avg_holes_count %}
+        <div class="col-md-4"
+            <p>Stats: </p>
+        </div>
+        {% endif %}
+
+        {% if avg_synth_time %}
+        <div class="col-md-4"
+            <p>Average synthesizer time per program: {{avg_synth_time}}</p>
+        </div>
+        {% endif %}
+
+        {% if avg_holes_count %}
+        <div class="col-md-4"
+            <p>Average number of holes per program: {{avg_holes_count}}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
         <h4>Saved Programs:</h4>
         <table class="table table-striped program-table">
             <thead>

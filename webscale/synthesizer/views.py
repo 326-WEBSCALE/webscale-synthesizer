@@ -268,14 +268,30 @@ def profile(request, profile_id=None):
 
     programs = Snippit.objects.filter(user_id=profile_user)
 
+    program_data = [SnippitData.objects.filter(snippit_id = program.id.hex).first() for program in programs]
+    program_data_filtered = [d for d in program_data if d]
+    tot_synth_time = 0
+    tot_holes = 0
+    for d in program_data_filtered:
+        tot_synth_time += float(d.synthesizer_time)
+        tot_holes += int(d.holes_count)
+
+    context = {'page_title': profile_user.get_full_name(),
+             'user': profile_user,
+             'user_full_name': profile_user.get_full_name(),
+             'display_edit_link': display_edit_link,
+             'programs': programs}
+
+    if tot_synth_time > 0:
+        context['avg_synth_time'] = '%.3f'%(tot_synth_time / len(program_data_filtered))
+    if tot_holes > 0:
+        context['avg_holes_count'] = '%.3f'%(tot_holes / len(program_data_filtered))
+
+
     return render(
         request,
         'synthesizer/profile.html',
-        context={'page_title': profile_user.get_full_name(),
-                 'user': profile_user,
-                 'user_full_name': profile_user.get_full_name(),
-                 'display_edit_link': display_edit_link,
-                 'programs': programs},
+        context
     )
 
 class ProfileEditForm(forms.Form):
