@@ -16,3 +16,8 @@ opam install \
 
 **NOTE**: When things fails, keep calm. Ping Rachit, he is here to SOLVE THE
 BEAR MENANCE.
+
+Example
+--------
+
+`./Synth <bit-width> <sketch> <spec>`
