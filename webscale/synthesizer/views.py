@@ -59,6 +59,10 @@ def synthesize(request):
 
     if request.method == 'POST':
         received_json_data = json.loads(request.body)
+        if not received_json_data['spec'] or not received_json_data['sketch']:
+            response = JsonResponse({'synth_out': '(nothing)'})
+            return response
+
         specf = writeTmpF(received_json_data['spec'])
         sketchf = writeTmpF(received_json_data['sketch'])
 
@@ -71,10 +75,15 @@ def synthesize(request):
 
         snippetID = received_json_data['snippet_id']
         if snippetID:
-            print(snippetID)
             delta = end - begin
             num_holes = synth_out.count(';')
-            snip_data = SnippitData.objects.get(snippit_id=snippetID)
+            snip_datas = SnippitData.objects.filter(snippit_id=snippetID)
+            if len(snip_datas) == 0:
+                snip_data = SnippitData.objects.create()
+                snip_data.snippit_id = Snippit.objects.get(pk=snippetID)
+            else:
+                snip_data = snip_datas[0]
+
             snip_data.synthesizer_time = delta
             snip_data.holes_count = num_holes
             snip_data.save()
@@ -119,8 +128,6 @@ def index(request, snippetID=None):
     # Logic for saving a snippet
     if request.user.is_authenticated and request.method == 'POST':
         form = SnippetSaveForm(request.POST)
-
-        print(snippetID)
 
         if form.is_valid():
             if not snippetID:

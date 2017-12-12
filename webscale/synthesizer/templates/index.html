@@ -155,7 +155,7 @@
                         const fieldValue = document.getElementById(fromId)
                                                    .getElementsByClassName("ace_content")[0]
                                                    .innerText;
-                        program.value = fieldValue.trim() == '' ? "nothing" : fieldValue;
+                        program.value = fieldValue.trim() == '' ? "(nothing)" : fieldValue;
                         program.name = name;
                         program.id = name;
                         program.style.visibility = "hidden";
